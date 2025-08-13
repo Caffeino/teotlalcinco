@@ -6,6 +6,7 @@ import (
 	"github.com/Caffeino/teotlalcinco/internal/db"
 	"github.com/Caffeino/teotlalcinco/internal/env"
 	"github.com/Caffeino/teotlalcinco/internal/store"
+	"go.uber.org/zap"
 )
 
 const version = "0.0.1"
@@ -21,6 +22,10 @@ func main() {
 			maxIdleTime:  env.GetString("DB_MAX_IDLE_TIME", "15m"),
 		},
 	}
+
+	// Logger
+	logger := zap.Must(zap.NewProduction()).Sugar()
+	defer logger.Sync()
 
 	// DB connection
 	db, err := db.New(cfg.db.addr, cfg.db.maxOpenConns, cfg.db.maxIdleConns, cfg.db.maxIdleTime)
@@ -40,6 +45,7 @@ func main() {
 	app := &application{
 		config: cfg,
 		store:  store,
+		logger: logger,
 	}
 
 	mux := app.mount()

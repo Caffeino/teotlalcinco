@@ -3,9 +3,9 @@ package main
 import "net/http"
 
 type RegisterUserPayload struct {
-	Username string `json:"username"`
-	Email    string `json:"email"`
-	Password string `json:"password"`
+	Username string `json:"username" validate:"required,min=3,max=50"`
+	Email    string `json:"email" validate:"required,email,max=200"`
+	Password string `json:"password" validate:"required,min=8,max=70"`
 }
 
 func (app *application) loginUserHandler(w http.ResponseWriter, r *http.Request) {
@@ -16,16 +16,20 @@ func (app *application) registerUserHandler(w http.ResponseWriter, r *http.Reque
 	var payload RegisterUserPayload
 
 	if err := readJSON(w, r, &payload); err != nil {
-		writeJSONError(w, http.StatusInternalServerError, err.Error())
+		app.badRequestResponse(w, r, err)
 		return
 	}
 
-	type envelope struct {
-		Data any `json:"error"`
+	if err := Validate.Struct(payload); err != nil {
+		inputErrors := inputValidationErrors(err)
+		app.inputErrorResponse(w, r, inputErrors)
+		return
 	}
 
-	if err := writeJSON(w, http.StatusOK, &envelope{Data: payload}); err != nil {
-		writeJSONError(w, http.StatusInternalServerError, err.Error())
+	data := map[string]string{"status": "ok"}
+
+	if err := app.jsonResponse(w, http.StatusOK, data); err != nil {
+		app.internalServerErrorResponse(w, r, err)
 		return
 	}
 }

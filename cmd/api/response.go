@@ -1,0 +1,38 @@
+package main
+
+import (
+	"fmt"
+	"net/http"
+	"strings"
+)
+
+func (app *application) jsonResponse(w http.ResponseWriter, status int, data any) error {
+	type envelope struct {
+		Data any `json:"data"`
+	}
+
+	return writeJSON(w, status, &envelope{Data: data})
+}
+
+func (app *application) internalServerErrorResponse(w http.ResponseWriter, r *http.Request, err error) {
+	app.logger.Errorw(setRequestInfo(r, "Internal Server Error"), "error", setError(err.Error()))
+	writeJSONError(w, http.StatusInternalServerError, "the server encountered a problem")
+}
+
+func (app *application) badRequestResponse(w http.ResponseWriter, r *http.Request, err error) {
+	app.logger.Warnw(setRequestInfo(r, "Bad Request"), "error", setError(err.Error()))
+	writeJSONError(w, http.StatusBadRequest, err.Error())
+}
+
+func (app *application) inputErrorResponse(w http.ResponseWriter, r *http.Request, err *InputErrros) {
+	type envelope struct {
+		Error []string `json:"error"`
+	}
+
+	app.logger.Warnw(setRequestInfo(r, "Bad Request"), "error", setError(strings.Join(err.Errors, ", ")))
+	writeJSON(w, http.StatusBadRequest, &envelope{Error: err.Errors})
+}
+
+func setRequestInfo(r *http.Request, info string) string {
+	return fmt.Sprintf("[%s][%s]%s", r.Method, info, r.URL.Path)
+}
