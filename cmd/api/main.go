@@ -2,6 +2,7 @@ package main
 
 import (
 	"log"
+	"time"
 
 	"github.com/Caffeino/teotlalcinco/internal/db"
 	"github.com/Caffeino/teotlalcinco/internal/env"
@@ -20,6 +21,9 @@ func main() {
 			maxOpenConns: env.GetInt("DB_MAX_OPEN_CONNS", 30),
 			maxIdleConns: env.GetInt("DB_MAX_IDLE_CONS", 30),
 			maxIdleTime:  env.GetString("DB_MAX_IDLE_TIME", "15m"),
+		},
+		mail: mailConfig{
+			expInvitation: time.Hour * 24 * 3, // 3 days
 		},
 	}
 

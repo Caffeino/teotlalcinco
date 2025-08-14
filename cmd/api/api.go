@@ -21,6 +21,7 @@ type config struct {
 	addr string
 	env  string
 	db   dbConfig
+	mail mailConfig
 }
 
 type dbConfig struct {
@@ -28,6 +29,10 @@ type dbConfig struct {
 	maxOpenConns int
 	maxIdleConns int
 	maxIdleTime  string
+}
+
+type mailConfig struct {
+	expInvitation time.Duration
 }
 
 func (app *application) mount() http.Handler {
