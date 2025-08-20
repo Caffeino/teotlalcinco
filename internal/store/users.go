@@ -20,46 +20,34 @@ type UserStore struct {
 	db *sql.DB
 }
 
-func (s *UserStore) GetByEmail(ctx context.Context, email string) (*User, error) {
-	query := `
-		SELECT u.id, u.username, u.email, u.password, u.role_id, u.created_at, u.is_active, r.id, role.name
-		FROM users u
-		JOIN roles r ON u.role_id = r.id
-		WHERE u.email = $1
-	`
+func (s *UserStore) AlreadyExists(ctx context.Context, username, email string) error {
+	query := `SELECT COUNT(*) FROM users WHERE username = $1 OR email = $2`
 
 	ctx, cancel := context.WithTimeout(ctx, QueryTimeDuration)
 	defer cancel()
 
-	user := &User{}
+	var count int
 
-	err := s.db.QueryRowContext(ctx, query, email).Scan(
-		&user.ID,
-		&user.Username,
-		&user.Email,
-		&user.Password.hash,
-		&user.Role.ID,
-		&user.Role.Name,
-		&user.CreatedAt,
-		&user.IsActive,
-	)
-
+	err := s.db.QueryRowContext(ctx, query, username, email).Scan(&count)
 	if err != nil {
-		switch err {
-		case sql.ErrNoRows:
-			return nil, ErrNotFound
-		default:
-			return nil, err
-		}
+		return err
 	}
 
-	return user, nil
+	if count > 0 {
+		return ErrAlreadyExists
+	}
+
+	return nil
 }
 
 func (s *UserStore) CreateAndInvite(ctx context.Context, user *User, token string, exp time.Duration) error {
 	// transaction wrapper
 	return withTx(s.db, ctx, func(tx *sql.Tx) error {
 		if err := s.create(ctx, tx, user); err != nil {
+			return err
+		}
+
+		if err := s.createInvitation(ctx, tx, user.ID, token, exp); err != nil {
 			return err
 		}
 
@@ -93,6 +81,20 @@ func (s *UserStore) create(ctx context.Context, tx *sql.Tx, user *User) error {
 		&user.CreatedAt,
 	)
 
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
+
+func (s *UserStore) createInvitation(ctx context.Context, tx *sql.Tx, userID int64, token string, exp time.Duration) error {
+	query := `INSERT INTO invitations (token, user_id, expiry) values ($1, $2, $3)`
+
+	ctx, cancel := context.WithTimeout(ctx, QueryTimeDuration)
+	defer cancel()
+
+	_, err := tx.ExecContext(ctx, query, token, userID, time.Now().Add(exp))
 	if err != nil {
 		return err
 	}

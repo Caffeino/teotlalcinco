@@ -10,11 +10,12 @@ import (
 var (
 	QueryTimeDuration = time.Second * 5
 	ErrNotFound       = errors.New("resource not found")
+	ErrAlreadyExists  = errors.New("an user with that username or email already exists")
 )
 
 type Storage struct {
 	Users interface {
-		GetByEmail(ctx context.Context, email string) (*User, error)
+		AlreadyExists(ctx context.Context, username, email string) error
 		CreateAndInvite(ctx context.Context, user *User, token string, exp time.Duration) error
 	}
 }

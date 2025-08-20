@@ -39,8 +39,14 @@ func (app *application) registerUserHandler(w http.ResponseWriter, r *http.Reque
 	ctx := r.Context()
 
 	// Check if the user already exists. If not, continue with registration.
-	if _, err := app.store.Users.GetByEmail(ctx, payload.Email); err == nil {
-		app.badRequestResponse(w, r, err)
+	if err := app.store.Users.AlreadyExists(ctx, payload.Username, payload.Email); err != nil {
+		switch err {
+		case store.ErrAlreadyExists:
+			app.badRequestResponse(w, r, err)
+		default:
+			app.internalServerErrorResponse(w, r, err)
+		}
+
 		return
 	}
 
