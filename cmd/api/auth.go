@@ -58,6 +58,7 @@ func (app *application) registerUserHandler(w http.ResponseWriter, r *http.Reque
 
 	err := app.store.Users.CreateAndInvite(ctx, user, hashToken, app.config.mail.expInvitation)
 	if err != nil {
+		app.internalServerErrorResponse(w, r, err)
 		return
 	}
 
