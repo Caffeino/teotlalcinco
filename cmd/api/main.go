@@ -28,7 +28,7 @@ func main() {
 	}
 
 	// Logger
-	logger := zap.Must(zap.NewProduction()).Sugar()
+	logger := zap.Must(zap.NewProduction(zap.AddCallerSkip(1))).Sugar()
 	defer logger.Sync()
 
 	// DB connection

@@ -15,12 +15,12 @@ func (app *application) jsonResponse(w http.ResponseWriter, status int, data any
 }
 
 func (app *application) internalServerErrorResponse(w http.ResponseWriter, r *http.Request, err error) {
-	app.logger.Errorw(setRequestInfo(r, "Internal Server Error"), "error", setError(err.Error()))
+	app.logger.Errorw(setRequestInfo(r, "Internal Server Error"), "error", err.Error())
 	writeJSONError(w, http.StatusInternalServerError, "the server encountered a problem")
 }
 
 func (app *application) badRequestResponse(w http.ResponseWriter, r *http.Request, err error) {
-	app.logger.Warnw(setRequestInfo(r, "Bad Request"), "error", setError(err.Error()))
+	app.logger.Warnw(setRequestInfo(r, "Bad Request"), "error", err.Error())
 	writeJSONError(w, http.StatusBadRequest, err.Error())
 }
 
@@ -29,7 +29,7 @@ func (app *application) inputErrorResponse(w http.ResponseWriter, r *http.Reques
 		Error []string `json:"error"`
 	}
 
-	app.logger.Warnw(setRequestInfo(r, "Bad Request"), "error", setError(strings.Join(err.Errors, ", ")))
+	app.logger.Warnw(setRequestInfo(r, "Bad Request"), "error", strings.Join(err.Errors, ", "))
 	writeJSON(w, http.StatusBadRequest, &envelope{Error: err.Errors})
 }
 
