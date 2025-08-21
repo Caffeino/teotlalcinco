@@ -5,6 +5,7 @@ import (
 	"net/http"
 	"time"
 
+	"github.com/Caffeino/teotlalcinco/internal/mailer"
 	"github.com/Caffeino/teotlalcinco/internal/store"
 	"github.com/go-chi/chi/v5"
 	"github.com/go-chi/chi/v5/middleware"
@@ -15,13 +16,15 @@ type application struct {
 	config config
 	store  store.Storage
 	logger *zap.SugaredLogger
+	mailer mailer.Client
 }
 
 type config struct {
-	addr string
-	env  string
-	db   dbConfig
-	mail mailConfig
+	addr        string
+	env         string
+	db          dbConfig
+	mail        mailConfig
+	frontendURL string
 }
 
 type dbConfig struct {
@@ -33,6 +36,14 @@ type dbConfig struct {
 
 type mailConfig struct {
 	expInvitation time.Duration
+	senderName    string
+	senderEmail   string
+	maxRetries    int
+	sendGrid      sendGridConfig
+}
+
+type sendGridConfig struct {
+	apiKey string
 }
 
 func (app *application) mount() http.Handler {

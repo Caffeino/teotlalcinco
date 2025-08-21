@@ -3,6 +3,7 @@ package main
 import (
 	"net/http"
 
+	"github.com/Caffeino/teotlalcinco/internal/mailer"
 	"github.com/Caffeino/teotlalcinco/internal/store"
 	"github.com/Caffeino/teotlalcinco/utils"
 )
@@ -16,6 +17,11 @@ type RegisterUserPayload struct {
 type UserWithToken struct {
 	*store.User
 	Token string `json:"token"`
+}
+
+type UserWelcomeEmailData struct {
+	Username      string
+	ActivationURL string
 }
 
 func (app *application) loginUserHandler(w http.ResponseWriter, r *http.Request) {
@@ -38,7 +44,6 @@ func (app *application) registerUserHandler(w http.ResponseWriter, r *http.Reque
 
 	ctx := r.Context()
 
-	// Check if the user already exists. If not, continue with registration.
 	if err := app.store.Users.AlreadyExists(ctx, payload.Username, payload.Email); err != nil {
 		switch err {
 		case store.ErrAlreadyExists:
@@ -61,12 +66,27 @@ func (app *application) registerUserHandler(w http.ResponseWriter, r *http.Reque
 	}
 
 	plainToken, hashToken := utils.GenerateHashToken()
-
+	// Create an new user with inactive status and create invitation.
 	err := app.store.Users.CreateAndInvite(ctx, user, hashToken, app.config.mail.expInvitation)
 	if err != nil {
 		app.internalServerErrorResponse(w, r, err)
 		return
 	}
+
+	// Send email with the activation token
+	isProdEnv := app.config.env == "production"
+	welcomeData := UserWelcomeEmailData{
+		Username:      user.Username,
+		ActivationURL: utils.UserActivationURL(app.config.frontendURL, plainToken),
+	}
+
+	status, err := app.mailer.Send(mailer.UserWelcomeTmpl, user.Username, user.Email, welcomeData, !isProdEnv)
+	if err != nil {
+		app.logger.Errorw("error sending welcome email", "error", err)
+		// TODO: Rollback user creation if email fails (SAGA pattern)
+	}
+
+	app.logger.Infow("email sent", "status code", status)
 
 	userWithToken := UserWithToken{
 		User:  user,
