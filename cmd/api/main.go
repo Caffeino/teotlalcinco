@@ -36,7 +36,7 @@ func main() {
 	}
 
 	// Logger
-	logger := zap.Must(zap.NewProduction(zap.AddCallerSkip(1))).Sugar()
+	logger := zap.Must(zap.NewProduction()).Sugar()
 	defer logger.Sync()
 
 	// DB connection
@@ -46,7 +46,7 @@ func main() {
 	}
 
 	defer db.Close()
-	log.Printf("database connection pool established")
+	logger.Info("database connection pool established")
 
 	// Mailer
 	mailer, err := mailer.NewSendgrid(
