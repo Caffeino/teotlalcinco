@@ -17,6 +17,7 @@ type Storage struct {
 	Users interface {
 		AlreadyExists(ctx context.Context, username, email string) error
 		CreateAndInvite(ctx context.Context, user *User, token string, exp time.Duration) error
+		DeleteAndUninvite(ctx context.Context, userID int64) error
 	}
 }
 
