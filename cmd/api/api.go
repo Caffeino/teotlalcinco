@@ -62,14 +62,10 @@ func (app *application) mount() http.Handler {
 		// Health Check Test Endpoint
 		r.Get("/health", app.healthCheckHandler)
 
-		// Users Handler
-		r.Route("/users", func(r chi.Router) {
-			// Public routes
-			r.Route("/auth", func(r chi.Router) {
-				r.Post("/login", app.loginUserHandler)
-				r.Post("/register", app.registerUserHandler)
-				r.Put("/active/{token}", app.activeUserHandler)
-			})
+		r.Route("/auth", func(r chi.Router) {
+			r.Post("/login", app.loginUserHandler)
+			r.Post("/register", app.registerUserHandler)
+			r.Put("/active/{token}", app.activeUserHandler)
 		})
 	})
 

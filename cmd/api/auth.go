@@ -6,6 +6,7 @@ import (
 	"github.com/Caffeino/teotlalcinco/internal/mailer"
 	"github.com/Caffeino/teotlalcinco/internal/store"
 	"github.com/Caffeino/teotlalcinco/utils"
+	"github.com/go-chi/chi/v5"
 )
 
 type RegisterUserPayload struct {
@@ -107,5 +108,20 @@ func (app *application) registerUserHandler(w http.ResponseWriter, r *http.Reque
 }
 
 func (app *application) activeUserHandler(w http.ResponseWriter, r *http.Request) {
-	// TODO...
+	token := chi.URLParam(r, "token")
+
+	if err := app.store.Users.ActivateToken(r.Context(), token); err != nil {
+		switch err {
+		case store.ErrNotFound:
+			app.notFoundResponse(w, r, err)
+		default:
+			app.internalServerErrorResponse(w, r, err)
+		}
+
+		return
+	}
+
+	if err := app.jsonResponse(w, http.StatusNoContent, nil); err != nil {
+		app.internalServerErrorResponse(w, r, err)
+	}
 }

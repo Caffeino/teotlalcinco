@@ -2,7 +2,9 @@ package store
 
 import (
 	"context"
+	"crypto/sha256"
 	"database/sql"
+	"encoding/hex"
 	"time"
 )
 
@@ -137,6 +139,97 @@ func (s *UserStore) deleteInvitations(ctx context.Context, tx *sql.Tx, userID in
 	defer cancel()
 
 	_, err := tx.ExecContext(ctx, query, userID)
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
+
+func (s *UserStore) ActivateToken(ctx context.Context, token string) error {
+	return withTx(s.db, ctx, func(tx *sql.Tx) error {
+		// Tx1. Find the user that this token belongs to
+		user, err := s.getByInvitation(ctx, tx, token)
+		if err != nil {
+			return err
+		}
+
+		// Tx2. Update the user (is_active = true)
+		user.IsActive = true
+		if err := s.update(ctx, tx, user); err != nil {
+			return err
+		}
+
+		// Tx3. Clean invitations
+		if err := s.deleteInvitations(ctx, tx, user.ID); err != nil {
+			return err
+		}
+
+		return nil
+	})
+}
+
+func (s *UserStore) getByInvitation(ctx context.Context, tx *sql.Tx, token string) (*User, error) {
+	query := `
+		SELECT u.id, u.username, u.email, u.role_id, u.is_active, u.created_at
+		FROM users u
+		JOIN invitations i ON u.id = i.user_id
+		WHERE i.token = $1 AND i.expiry > $2
+	`
+
+	ctx, cancel := context.WithTimeout(ctx, QueryTimeDuration)
+	defer cancel()
+
+	hash := sha256.Sum256([]byte(token))
+	hashToken := hex.EncodeToString(hash[:])
+
+	user := &User{}
+
+	err := tx.QueryRowContext(
+		ctx,
+		query,
+		hashToken,
+		time.Now(),
+	).Scan(
+		&user.ID,
+		&user.Username,
+		&user.Email,
+		&user.Role.ID,
+		&user.IsActive,
+		&user.CreatedAt,
+	)
+	if err != nil {
+		switch err {
+		case sql.ErrNoRows:
+			return nil, ErrNotFound
+		default:
+			return nil, err
+		}
+	}
+
+	return user, nil
+}
+
+func (s *UserStore) update(ctx context.Context, tx *sql.Tx, user *User) error {
+	query := `
+		UPDATE users
+		SET username = $1, email = $2, is_active = $3, role_id = $4
+		WHERE id = $5
+	`
+
+	ctx, cancel := context.WithTimeout(ctx, QueryTimeDuration)
+	defer cancel()
+
+	_, err := tx.ExecContext(
+		ctx,
+		query,
+		user.Username,
+		user.Email,
+		user.IsActive,
+		user.Role.ID,
+		user.ID,
+	)
+
 	if err != nil {
 		return err
 	}

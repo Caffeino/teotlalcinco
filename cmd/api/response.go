@@ -24,6 +24,11 @@ func (app *application) badRequestResponse(w http.ResponseWriter, r *http.Reques
 	writeJSONError(w, http.StatusBadRequest, err.Error())
 }
 
+func (app *application) notFoundResponse(w http.ResponseWriter, r *http.Request, error error) {
+	app.logger.Warnw(setRequestInfo(r, "Not Found"), "error", error.Error())
+	writeJSON(w, http.StatusNotFound, "not found")
+}
+
 func (app *application) inputErrorResponse(w http.ResponseWriter, r *http.Request, err *InputErrros) {
 	type envelope struct {
 		Error []string `json:"error"`
