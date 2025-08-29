@@ -14,6 +14,11 @@ func (app *application) jsonResponse(w http.ResponseWriter, status int, data any
 	return writeJSON(w, status, &envelope{Data: data})
 }
 
+func (app *application) noContentResponse(w http.ResponseWriter, status int) {
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(status)
+}
+
 func (app *application) internalServerErrorResponse(w http.ResponseWriter, r *http.Request, err error) {
 	app.logger.Errorw(setRequestInfo(r, "Internal Server Error"), "error", err.Error())
 	writeJSONError(w, http.StatusInternalServerError, "the server encountered a problem")

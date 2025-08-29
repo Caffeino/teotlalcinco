@@ -121,7 +121,5 @@ func (app *application) activeUserHandler(w http.ResponseWriter, r *http.Request
 		return
 	}
 
-	if err := app.jsonResponse(w, http.StatusNoContent, nil); err != nil {
-		app.internalServerErrorResponse(w, r, err)
-	}
+	app.noContentResponse(w, http.StatusNoContent)
 }

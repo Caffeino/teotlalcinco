@@ -30,7 +30,7 @@ func main() {
 			senderEmail:   env.GetString("SENDER_EMAIL", ""),
 			maxRetries:    env.GetInt("MAX_RETRIES", 3),
 			sendGrid: sendGridConfig{
-				apiKey: env.GetString("SENDGRID_API_KEY", ""),
+				apiKey: env.GetString("SENDGRID_API_KEY", "SG.TestSgridApiKey.123"),
 			},
 		},
 	}
