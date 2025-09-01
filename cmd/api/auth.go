@@ -2,15 +2,22 @@ package main
 
 import (
 	"net/http"
+	"time"
 
 	"github.com/Caffeino/teotlalcinco/internal/mailer"
 	"github.com/Caffeino/teotlalcinco/internal/store"
 	"github.com/Caffeino/teotlalcinco/utils"
 	"github.com/go-chi/chi/v5"
+	"github.com/golang-jwt/jwt/v5"
 )
 
 type RegisterUserPayload struct {
 	Username string `json:"username" validate:"required,min=3,max=50"`
+	Email    string `json:"email" validate:"required,email,max=200"`
+	Password string `json:"password" validate:"required,min=8,max=70"`
+}
+
+type LoginUserPayload struct {
 	Email    string `json:"email" validate:"required,email,max=200"`
 	Password string `json:"password" validate:"required,min=8,max=70"`
 }
@@ -26,7 +33,54 @@ type UserWelcomeEmailData struct {
 }
 
 func (app *application) loginUserHandler(w http.ResponseWriter, r *http.Request) {
-	// TODO...
+	var payload LoginUserPayload
+
+	if err := readJSON(w, r, &payload); err != nil {
+		app.badRequestResponse(w, r, err)
+		return
+	}
+
+	if err := Validate.Struct(payload); err != nil {
+		inputErrros := inputValidationErrors(err)
+		app.inputErrorResponse(w, r, inputErrros)
+		return
+	}
+
+	user, err := app.store.Users.GetByEmailAndStatus(r.Context(), payload.Email, true)
+	if err != nil {
+		switch err {
+		case store.ErrNotFound:
+			app.unauthorizedErrorResponse(w, r, err)
+		default:
+			app.internalServerErrorResponse(w, r, err)
+		}
+
+		return
+	}
+
+	if err := user.Password.Compare(payload.Password); err != nil {
+		app.unauthorizedErrorResponse(w, r, err)
+		return
+	}
+
+	claims := jwt.MapClaims{
+		"sub": user.ID,
+		"exp": time.Now().Add(app.config.auth.token.exp).Unix(),
+		"iat": time.Now().Unix(),
+		"nbf": time.Now().Unix(),
+		"iss": app.config.auth.token.iss,
+		"aud": app.config.auth.token.iss,
+	}
+
+	token, err := app.authenticator.GenerateToken(claims)
+	if err != nil {
+		app.internalServerErrorResponse(w, r, err)
+		return
+	}
+
+	if err := app.jsonResponse(w, http.StatusCreated, token); err != nil {
+		app.internalServerErrorResponse(w, r, err)
+	}
 }
 
 func (app *application) registerUserHandler(w http.ResponseWriter, r *http.Request) {

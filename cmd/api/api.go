@@ -4,6 +4,7 @@ import (
 	"net/http"
 	"time"
 
+	"github.com/Caffeino/teotlalcinco/internal/auth"
 	"github.com/Caffeino/teotlalcinco/internal/mailer"
 	"github.com/Caffeino/teotlalcinco/internal/store"
 	"github.com/go-chi/chi/v5"
@@ -12,10 +13,11 @@ import (
 )
 
 type application struct {
-	config config
-	store  store.Storage
-	logger *zap.SugaredLogger
-	mailer mailer.Client
+	config        config
+	store         store.Storage
+	logger        *zap.SugaredLogger
+	mailer        mailer.Client
+	authenticator auth.Authenticator
 }
 
 type config struct {
@@ -24,6 +26,7 @@ type config struct {
 	db          dbConfig
 	mail        mailConfig
 	frontendURL string
+	auth        authConfig
 }
 
 type dbConfig struct {
@@ -43,6 +46,16 @@ type mailConfig struct {
 
 type sendGridConfig struct {
 	apiKey string
+}
+
+type authConfig struct {
+	token tokenConfig
+}
+
+type tokenConfig struct {
+	secret string
+	exp    time.Duration
+	iss    string
 }
 
 func (app *application) mount() http.Handler {

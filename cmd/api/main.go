@@ -4,6 +4,7 @@ import (
 	"log"
 	"time"
 
+	"github.com/Caffeino/teotlalcinco/internal/auth"
 	"github.com/Caffeino/teotlalcinco/internal/db"
 	"github.com/Caffeino/teotlalcinco/internal/env"
 	"github.com/Caffeino/teotlalcinco/internal/mailer"
@@ -33,6 +34,13 @@ func main() {
 				apiKey: env.GetString("SENDGRID_API_KEY", "SG.TestSgridApiKey.123"),
 			},
 		},
+		auth: authConfig{
+			token: tokenConfig{
+				secret: env.GetString("AUTH_TOKEN_SECRET", "example"),
+				exp:    time.Hour * 24 * 3, // 3 days
+				iss:    "Teotlal5",
+			},
+		},
 	}
 
 	// Logger
@@ -59,13 +67,21 @@ func main() {
 		logger.Fatal(err)
 	}
 
+	// JWT-Authenticator
+	jwtAuthenticator := auth.NewJWTAuthenticator(
+		cfg.auth.token.secret,
+		cfg.auth.token.iss,
+		cfg.auth.token.iss,
+	)
+
 	store := store.NewStorage(db)
 
 	app := &application{
-		config: cfg,
-		store:  store,
-		logger: logger,
-		mailer: mailer,
+		config:        cfg,
+		store:         store,
+		logger:        logger,
+		mailer:        mailer,
+		authenticator: jwtAuthenticator,
 	}
 
 	mux := app.mount()
