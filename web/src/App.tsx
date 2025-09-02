@@ -1,12 +1,16 @@
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
-import LandingPage from './pages/Portal/LandingPage';
+import MainLayout from './components/layout/portal/MainLayout';
+import { routes } from './routes';
 
 function App() {
 	return (
 		<div className='dark:bg-black relative'>
 			<BrowserRouter>
 				<Routes>
-					<Route path='/' element={<LandingPage />} />
+					{/* Public Routes */}
+					<Route path='/' element={<MainLayout />}>
+						{routes}
+					</Route>
 				</Routes>
 			</BrowserRouter>
 		</div>
