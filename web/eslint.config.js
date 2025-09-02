@@ -21,6 +21,14 @@ export default tseslint.config([
 		languageOptions: {
 			ecmaVersion: 2020,
 			globals: globals.browser
+		},
+		rules: {
+			'prettier/prettier': [
+				'error',
+				{
+					endOfLine: 'auto'
+				}
+			]
 		}
 	},
 	eslintConfigPrettier

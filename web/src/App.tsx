@@ -1,8 +1,15 @@
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import LandingPage from './pages/Portal/LandingPage';
+
 function App() {
 	return (
-		<>
-			<h2>Teotlalcinco</h2>
-		</>
+		<div className='dark:bg-black relative'>
+			<BrowserRouter>
+				<Routes>
+					<Route path='/' element={<LandingPage />} />
+				</Routes>
+			</BrowserRouter>
+		</div>
 	);
 }
 
