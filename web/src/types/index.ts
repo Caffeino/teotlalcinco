@@ -12,3 +12,8 @@ export type PageWrapperProps = {
 	state?: string;
 	children: ReactNode;
 };
+
+export interface AuthUser {
+	userId: number;
+	token: string;
+}
