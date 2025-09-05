@@ -19,7 +19,7 @@ const btnCls = {
 	box: {
 		base: 'rounded-full shadow-inner border',
 		sizes: {
-			lg: 'h-5 w-14'
+			lg: 'h-4 w-12'
 		},
 		variants: {
 			secondary: {
@@ -32,7 +32,7 @@ const btnCls = {
 	input: {
 		base: 'absolute flex items-center justify-center rounded-full',
 		sizes: {
-			lg: '-top-1 h-7 w-7'
+			lg: '-top-1.5 h-7 w-7'
 		},
 		variants: {
 			secondary: {
@@ -67,7 +67,7 @@ const SwitchButton = ({
 						)}
 					>
 						<div
-							className={`${checked ? 'translate-x-8 duration-300 ease-in-out transition-all' : 'translate-x-0 duration-300 ease-in-out'}`}
+							className={`${checked ? 'translate-x-5 duration-300 ease-in-out transition-all' : 'translate-x-0 duration-300 ease-in-out'}`}
 						>
 							<div
 								className={clsx(

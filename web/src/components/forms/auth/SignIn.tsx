@@ -34,7 +34,8 @@ const SignIn = () => {
 	const onSubmit = async (values: SignInForm) => {
 		const user = await login(values.email, values.password);
 
-		if (!user) throw new Error('Invalid email or password');
+		if (!user)
+			throw new Error('Error al iniciar sesión, inténte de nuevo más tarde.');
 
 		authLogin(user);
 		navigate(from, { replace: true });
@@ -81,10 +82,11 @@ const SignIn = () => {
 					<GradientButton type='submit'>
 						{isLoading ? 'Iniciando...' : 'Iniciar sesión'}
 					</GradientButton>
-					<p className='text-[0.813rem] text-slate-800 mt-3 dark:text-slate-300'>
+					<p className='text-[0.813rem] text-slate-800 mt-3 dark:text-slate-300 flex gap-2'>
 						¿A&uacute;n no tienes una cuenta?{' '}
 						<button
-							className='font-medium text-primary underline cursor-pointer'
+							type='button'
+							className='font-semibold text-primary dark:text-sky-500 underline cursor-pointer'
 							onClick={() => {}}
 						>
 							Crear una

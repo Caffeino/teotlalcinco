@@ -1,21 +1,16 @@
-import { Moon, MoveRight, Sun } from 'lucide-react';
-import { useState } from 'react';
+import { ArrowRight, LucideSearch, Moon, Sun } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import publicRoutes from '../../../routes/public';
 import SwitchButton from '../../buttons/SwitchButton';
 import Logo from '../../common/Logo';
-import SignIn from '../../forms/auth/SignIn';
-import Modal from '../../modal/Modal';
 
-const Navbar = ({
-	darkMode,
-	setDarkMode
-}: {
+interface NavbarProps {
 	darkMode: boolean;
 	setDarkMode: () => void;
-}) => {
-	const [openModal, setOpenModal] = useState(false);
+	showAuthModal: () => void;
+}
 
+const Navbar = ({ darkMode, setDarkMode, showAuthModal }: NavbarProps) => {
 	return (
 		<>
 			<header className='flex justify-between items-center px-4 sm:px-12 lg:px-24 xl:px-40 py-4 sticky top-0 z-20 backdrop-blur-xl font-medium bg-white/50 dark:bg-linear-to-t dark:from-blue-950 dark:to-sky-950'>
@@ -33,7 +28,15 @@ const Navbar = ({
 						})}
 					</ul>
 				</nav>
-				<div className='flex items-center gap-6'>
+				<div className='flex items-center gap-4'>
+					<div className='flex justify-center border-r border-gray-300 dark:border-gray-500 px-4 py-[2px]'>
+						<button
+							className='hover:text-primary dark:text-white cursor-pointer'
+							onClick={() => {}}
+						>
+							<LucideSearch size={20} />
+						</button>
+					</div>
 					<SwitchButton
 						name='theme'
 						checked={darkMode}
@@ -50,17 +53,14 @@ const Navbar = ({
 						}}
 					/>
 					<button
-						onClick={() => setOpenModal(true)}
+						onClick={showAuthModal}
 						className='text-[1rem] max-sm:hidden flex items-center gap-2 px-6 py-2 text-white bg-linear-to-r from-primary to-sky-400 rounded-full cursor-pointer transition-all'
 					>
 						Login
-						<MoveRight />
+						<ArrowRight />
 					</button>
 				</div>
 			</header>
-			<Modal open={openModal} onClose={() => setOpenModal(false)} hideHeader>
-				<SignIn />
-			</Modal>
 		</>
 	);
 };

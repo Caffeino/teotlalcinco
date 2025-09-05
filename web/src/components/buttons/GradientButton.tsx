@@ -2,7 +2,7 @@ import clsx from 'clsx';
 import type { ButtonHTMLAttributes, ReactNode } from 'react';
 
 const buttonClasses = {
-	base: 'w-full gap-3 mt-2 text-sm font-semibold rounded-md transition-all hover:scale-[1.01] hover:text-white cursor-pointer',
+	base: 'w-full gap-3 mt-2 mb-1 text-sm font-semibold rounded-md transition-all hover:scale-[1.01] hover:text-white cursor-pointer',
 	variants: {
 		primary: 'text-white bg-linear-to-r from-primary to-sky-400',
 		secondary:
