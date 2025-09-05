@@ -20,7 +20,7 @@ const Modal = ({
 	return (
 		<div className='fixed inset-0 z-50 flex justify-center items-center w-full h-full bg-black/40'>
 			<div
-				className={`relative flex flex-col bg-white shadow-lg rounded-lg overflow-hidden`}
+				className={`relative flex flex-col bg-white dark:bg-linear-to-t dark:from-blue-950 dark:to-sky-900 shadow-lg rounded-lg overflow-hidden`}
 			>
 				{!hideHeader && (
 					<div className='flex items-center justify-between p-4 border-b border-gray-200'>
@@ -32,7 +32,7 @@ const Modal = ({
 
 				<button
 					type='button'
-					className='text-gray-400 bg-transparent hover:bg-sky-100 hover:text-primary rounded-lg text-sm w-8 h-8 flex justify-center items-center absolute top-3.5 right-3.5 cursor-pointer'
+					className='text-gray-400 bg-transparent hover:bg-sky-100 hover:text-primary dark:hover:bg-slate-800/50 dark:hover:text-gray-400 rounded-lg text-sm w-8 h-8 flex justify-center items-center absolute top-3.5 right-3.5 cursor-pointer'
 					onClick={() => onClose()}
 				>
 					<X />

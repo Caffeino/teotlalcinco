@@ -27,12 +27,12 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
 		loadAuthUser();
 	}, []);
 
-	const login = (userData: AuthUser) => {
+	const authLogin = (userData: AuthUser) => {
 		setAuth(userData);
 		localStorage.setItem('auth', JSON.stringify(userData));
 	};
 
-	const logout = () => {
+	const authLogout = () => {
 		setAuth(null);
 		localStorage.removeItem('auth');
 	};
@@ -41,8 +41,8 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
 
 	const value = {
 		auth,
-		login,
-		logout,
+		authLogin,
+		authLogout,
 		isAuthenticated: !!auth
 	};
 

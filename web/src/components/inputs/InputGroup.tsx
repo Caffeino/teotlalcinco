@@ -33,16 +33,21 @@ const InputGroup = ({
 		setShowPassword(!showPassword);
 	};
 
+	let boxType;
+	if (!isTextArea) {
+		boxType = type === 'password' ? (showPassword ? 'text' : 'password') : type;
+	}
+
 	return (
 		<div className={className}>
 			<label
 				htmlFor={name}
-				className={`text-[0.813rem] ${error ? 'text-red-400' : 'text-slate-600'}`}
+				className={`text-[0.813rem] ${error ? 'text-red-400' : 'text-slate-600 dark:text-slate-200'}`}
 			>
 				{label}
 			</label>
 			<div
-				className={`input-box ${error ? 'bg-red-50/50 border-red-300 focus-within:border-red-400' : 'border-dashed border-gray-200 inset-shadow-sm inset-shadow-sky-200/50 focus-within:border-sky-200 focus-within:border-solid'}`}
+				className={`input-box ${error ? 'bg-red-50/20 border-red-200 focus-within:border-red-300' : 'border-dashed dark:border-solid border-gray-200 dark:border-sky-800 inset-shadow-sm inset-shadow-sky-200/50 dark:inset-shadow-none focus-within:border-sky-200 focus-within:border-solid'}`}
 			>
 				<InputType
 					id={name}
@@ -50,7 +55,7 @@ const InputGroup = ({
 					value={value}
 					onChange={onChange}
 					rows={isTextArea ? rows : undefined}
-					type={isTextArea ? undefined : type}
+					type={boxType}
 					className={`w-full bg-transparent outline-none`}
 					autoComplete='off'
 					placeholder={placeholder}
@@ -62,7 +67,7 @@ const InputGroup = ({
 							<Eye
 								size={22}
 								onClick={() => toggleShowPassword()}
-								className='text-primary cursor-pointer'
+								className='text-sky-400 cursor-pointer'
 							/>
 						) : (
 							<EyeOff
@@ -74,7 +79,7 @@ const InputGroup = ({
 					</>
 				)}
 			</div>
-			{error && <p className='-mt-4 text-[0.813rem] text-red-400'>{error}</p>}
+			{error && <p className='-mt-4 text-xs text-red-400'>{error}</p>}
 		</div>
 	);
 };

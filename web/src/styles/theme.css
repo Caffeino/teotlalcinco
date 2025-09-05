@@ -18,5 +18,5 @@
 }
 
 .input-box {
-	@apply w-full flex justify-between gap-3 text-sm text-black rounded px-4 py-[0.625rem] mb-4 border outline-none;
+	@apply w-full flex justify-between gap-3 text-sm text-black dark:text-white rounded px-4 py-[0.625rem] mb-4 border outline-none;
 }

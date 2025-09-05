@@ -3,8 +3,8 @@ import type { AuthUser } from '../../types';
 
 interface AuthContextType {
 	auth: AuthUser | null;
-	login: (user: AuthUser) => void;
-	logout: () => void;
+	authLogin: (user: AuthUser) => void;
+	authLogout: () => void;
 	isAuthenticated: boolean;
 }
 
