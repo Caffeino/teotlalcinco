@@ -1,11 +1,11 @@
 import { useEffect, type ReactNode } from 'react';
 
-interface PageWrapperProps {
+interface AdmWrapperProps {
 	state?: string;
 	children: ReactNode;
 }
 
-const PageWrapper = ({ state, children }: PageWrapperProps) => {
+const AdmWrapper = ({ state, children }: AdmWrapperProps) => {
 	useEffect(() => {
 		if (!state) return;
 	}, [state]);
@@ -13,4 +13,4 @@ const PageWrapper = ({ state, children }: PageWrapperProps) => {
 	return <>{children}</>;
 };
 
-export default PageWrapper;
+export default AdmWrapper;

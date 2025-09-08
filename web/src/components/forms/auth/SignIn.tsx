@@ -3,6 +3,7 @@ import LOGIN_LOGO from '../../../assets/login-logo.svg';
 import { login } from '../../../lib/api/auth';
 import { useAuth } from '../../../lib/hooks/useAuth';
 import { useForm } from '../../../lib/hooks/useForm';
+import { validateEmail, validatePassword } from '../../../lib/validations/user';
 import GradientButton from '../../buttons/GradientButton';
 import ErrorMessage from '../../common/ErrorMessage';
 import InputGroup from '../../inputs/InputGroup';
@@ -22,14 +23,6 @@ const SignIn = () => {
 	const navigate = useNavigate();
 	const location = useLocation();
 	const from = location.state?.from?.pathname || '/';
-
-	const validate = (values: SignInForm) => {
-		const errors: Partial<SignInForm> = {};
-
-		if (!values.email) errors.email = 'Introduzca un correo electrónico válido';
-		if (!values.password) errors.password = 'Introduzca una contraseña válida';
-		return errors;
-	};
 
 	const onSubmit = async (values: SignInForm) => {
 		const user = await login(values.email, values.password);
@@ -79,7 +72,7 @@ const SignIn = () => {
 						type='password'
 						placeholder='Min 8 caracteres'
 					/>
-					<GradientButton type='submit'>
+					<GradientButton type='submit' disabled={isLoading}>
 						{isLoading ? 'Iniciando...' : 'Iniciar sesión'}
 					</GradientButton>
 					<p className='text-[0.813rem] text-slate-800 mt-3 dark:text-slate-300 flex gap-2'>
@@ -100,6 +93,18 @@ const SignIn = () => {
 			</div>
 		</div>
 	);
+};
+
+const validate = (values: SignInForm) => {
+	const errors: Partial<SignInForm> = {};
+
+	const emailErr = validateEmail(values.email);
+	if (emailErr) errors.email = emailErr;
+
+	const passwordErr = validatePassword(values.password);
+	if (passwordErr) errors.password = passwordErr;
+
+	return errors;
 };
 
 export default SignIn;

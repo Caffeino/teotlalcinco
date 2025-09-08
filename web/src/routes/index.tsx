@@ -1,10 +1,11 @@
 import type { ReactNode } from 'react';
 import { Route } from 'react-router-dom';
+import AdmWrapper from '../components/layout/admin/AdmWrapper';
 import PageWrapper from '../components/layout/portal/PageWrapper';
-import type { PublicRouteType } from '../types';
-import publicRoutes from './public';
+import type { RouteType } from '../types';
+import appRoutes from './appRoutes';
 
-const generateRoute = (routes: PublicRouteType[]): ReactNode => {
+const generatePublicRoutes = (routes: RouteType[]): ReactNode => {
 	return routes.map((route, iKey) => {
 		return (
 			<Route
@@ -20,4 +21,24 @@ const generateRoute = (routes: PublicRouteType[]): ReactNode => {
 	});
 };
 
-export const routes: ReactNode = generateRoute(publicRoutes);
+const generatePrivateRoutes = (routes: RouteType[]): ReactNode => {
+	return routes.map((route, iKey) => (
+		<Route
+			key={iKey}
+			path={route.path}
+			element={
+				<AdmWrapper state={route.state ?? undefined}>
+					{route.element}
+				</AdmWrapper>
+			}
+		/>
+	));
+};
+
+export const publicRoutes: ReactNode = generatePublicRoutes(
+	appRoutes.publicRoutes
+);
+
+export const privateRoutes: ReactNode = generatePrivateRoutes(
+	appRoutes.privateRoutes
+);
