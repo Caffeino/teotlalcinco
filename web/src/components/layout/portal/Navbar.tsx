@@ -1,16 +1,20 @@
 import { ArrowRight, LucideSearch, Moon, Sun } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import { useAuth } from '../../../lib/hooks/useAuth';
 import appRoutes from '../../../routes/appRoutes';
 import SwitchButton from '../../buttons/SwitchButton';
+import ProfileInfoCard from '../../cards/ProfileInfoCard';
 import Logo from '../../common/Logo';
 
 interface NavbarProps {
 	darkMode: boolean;
 	setDarkMode: () => void;
-	showAuthModal: () => void;
+	openAuthForm: () => void;
 }
 
-const Navbar = ({ darkMode, setDarkMode, showAuthModal }: NavbarProps) => {
+const Navbar = ({ darkMode, setDarkMode, openAuthForm }: NavbarProps) => {
+	const { isAuthenticated } = useAuth();
+
 	return (
 		<>
 			<header className='flex justify-between items-center px-4 sm:px-12 lg:px-24 xl:px-40 py-4 sticky top-0 z-20 backdrop-blur-xl font-medium bg-white/50 dark:bg-linear-to-t dark:from-blue-950 dark:to-sky-950'>
@@ -53,13 +57,19 @@ const Navbar = ({ darkMode, setDarkMode, showAuthModal }: NavbarProps) => {
 							)
 						}}
 					/>
-					<button
-						onClick={showAuthModal}
-						className='text-[1rem] max-sm:hidden flex items-center gap-2 px-6 py-2 text-white bg-linear-to-r from-primary to-sky-400 rounded-full cursor-pointer transition-all'
-					>
-						Login
-						<ArrowRight />
-					</button>
+					{!isAuthenticated ? (
+						<button
+							onClick={openAuthForm}
+							className='text-[1rem] max-sm:hidden flex items-center gap-2 px-6 py-2 text-white bg-linear-to-r from-primary to-sky-400 rounded-full cursor-pointer transition-all'
+						>
+							Login
+							<ArrowRight />
+						</button>
+					) : (
+						<div className='hidden md:block'>
+							<ProfileInfoCard />
+						</div>
+					)}
 				</div>
 			</header>
 		</>

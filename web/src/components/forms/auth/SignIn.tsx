@@ -1,4 +1,4 @@
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import LOGIN_LOGO from '../../../assets/login-logo.svg';
 import { login } from '../../../lib/api/auth';
 import { useAuth } from '../../../lib/hooks/useAuth';
@@ -18,11 +18,15 @@ const initialValues: SignInForm = {
 	password: ''
 };
 
-const SignIn = () => {
+const SignIn = ({
+	openRegisterForm,
+	onCloseAuthForm
+}: {
+	openRegisterForm: () => void;
+	onCloseAuthForm: () => void;
+}) => {
 	const { authLogin } = useAuth();
 	const navigate = useNavigate();
-	const location = useLocation();
-	const from = location.state?.from?.pathname || '/';
 
 	const onSubmit = async (values: SignInForm) => {
 		const user = await login(values.email, values.password);
@@ -31,7 +35,8 @@ const SignIn = () => {
 			throw new Error('Error al iniciar sesión, inténte de nuevo más tarde.');
 
 		authLogin(user);
-		navigate(from, { replace: true });
+		onCloseAuthForm();
+		navigate('/admin/', { replace: true });
 	};
 
 	const {
@@ -80,7 +85,7 @@ const SignIn = () => {
 						<button
 							type='button'
 							className='font-semibold text-primary dark:text-sky-500 underline cursor-pointer'
-							onClick={() => {}}
+							onClick={openRegisterForm}
 						>
 							Crear una
 						</button>
