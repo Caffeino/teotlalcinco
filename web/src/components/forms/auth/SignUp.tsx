@@ -1,4 +1,4 @@
-import REGISTER_LOGO from '../../../assets/login-logo.svg';
+import REGISTER_LOGO from '../../../assets/register-logo.svg';
 import GradientButton from '../../buttons/GradientButton';
 import InputGroup from '../../inputs/InputGroup';
 
@@ -11,6 +11,9 @@ const SignUp = ({
 }) => {
 	return (
 		<div className='flex items-center'>
+			<div className='hidden md:block'>
+				<img src={REGISTER_LOGO} alt='Login' className='h-60 w-80 p-2' />
+			</div>
 			<div className='w-[90vw] lg:w-[22vw] md:w-[33vw] p-7 flex flex-col justify-center'>
 				<h3 className='text-lg font-semibold text-slate-800 dark:text-slate-300'>
 					&Uacute;nete a nuetra comunidad!
@@ -62,14 +65,6 @@ const SignUp = ({
 						</button>
 					</p>
 				</form>
-			</div>
-
-			<div className='hidden md:block'>
-				<img
-					src={REGISTER_LOGO}
-					alt='Login'
-					className='h-[21.875rem] w-80 p-2'
-				/>
 			</div>
 		</div>
 	);

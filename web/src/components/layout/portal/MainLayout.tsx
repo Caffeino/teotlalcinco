@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { Outlet } from 'react-router-dom';
+import { useLoginModal } from '../../../lib/hooks/useLoginModal';
 import SignIn from '../../forms/auth/SignIn';
 import SignUp from '../../forms/auth/SignUp';
 import Modal from '../../modal/Modal';
@@ -7,22 +8,14 @@ import Navbar from './Navbar';
 
 const MainLayout = () => {
 	const [darkMode, setDarkMode] = useState(false);
-	const [openAuthModal, setOpenAuthModal] = useState(false);
-	const [loginForm, setLoginForm] = useState(false);
-
-	const openAuthForm = () => {
-		setOpenAuthModal(true);
-		setLoginForm(true);
-	};
-
-	const onCloseAuthForm = () => {
-		setOpenAuthModal(false);
-		setLoginForm(false);
-	};
-
-	const openRegisterForm = () => setLoginForm(false);
-
-	const openLoginForm = () => setLoginForm(true);
+	const {
+		isLoginForm,
+		authModalStatus,
+		openAuthForm,
+		closeAuthForm,
+		openRegisterForm,
+		openLoginForm
+	} = useLoginModal();
 
 	return (
 		<div className={`${darkMode && 'dark'}`}>
@@ -32,16 +25,16 @@ const MainLayout = () => {
 				openAuthForm={openAuthForm}
 			/>
 			<Outlet />
-			<Modal open={openAuthModal} onClose={onCloseAuthForm} hideHeader>
-				{loginForm ? (
+			<Modal open={authModalStatus} onClose={closeAuthForm} hideHeader>
+				{isLoginForm ? (
 					<SignIn
 						openRegisterForm={openRegisterForm}
-						onCloseAuthForm={onCloseAuthForm}
+						onCloseAuthForm={closeAuthForm}
 					/>
 				) : (
 					<SignUp
 						openLoginForm={openLoginForm}
-						onCloseAuthForm={onCloseAuthForm}
+						onCloseAuthForm={closeAuthForm}
 					/>
 				)}
 			</Modal>
