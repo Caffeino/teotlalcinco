@@ -1,5 +1,5 @@
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
-import ProtectedLayout from './components/layout/admin/ProtectedLayout';
+import ProtectedRoute from './components/layout/admin/ProtectedRoute';
 import MainLayout from './components/layout/portal/MainLayout';
 import { AuthProvider } from './lib/context/AuthProvider';
 import { privateRoutes, publicRoutes } from './routes';
@@ -13,7 +13,7 @@ function App() {
 						<Route path='/' element={<MainLayout />}>
 							{publicRoutes}
 						</Route>
-						<Route element={<ProtectedLayout />}>{privateRoutes}</Route>
+						<Route element={<ProtectedRoute />}>{privateRoutes}</Route>
 					</Routes>
 				</BrowserRouter>
 			</AuthProvider>

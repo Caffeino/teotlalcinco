@@ -1,23 +1,12 @@
 import type { ReactNode } from 'react';
 import { Route } from 'react-router-dom';
-import AdmWrapper from '../components/layout/admin/AdmWrapper';
-import PageWrapper from '../components/layout/portal/PageWrapper';
+import AdmLayout from '../components/layout/admin/AdmLayout';
 import type { RouteType } from '../types';
 import appRoutes from './appRoutes';
 
 const generatePublicRoutes = (routes: RouteType[]): ReactNode => {
 	return routes.map((route, iKey) => {
-		return (
-			<Route
-				key={iKey}
-				path={route.path}
-				element={
-					<PageWrapper state={route.state ?? undefined}>
-						{route.element}
-					</PageWrapper>
-				}
-			/>
-		);
+		return <Route key={iKey} path={route.path} element={route.element} />;
 	});
 };
 
@@ -27,9 +16,7 @@ const generatePrivateRoutes = (routes: RouteType[]): ReactNode => {
 			key={iKey}
 			path={route.path}
 			element={
-				<AdmWrapper state={route.state ?? undefined}>
-					{route.element}
-				</AdmWrapper>
+				<AdmLayout state={route.state ?? undefined}>{route.element}</AdmLayout>
 			}
 		/>
 	));

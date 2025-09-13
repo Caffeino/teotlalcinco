@@ -5,7 +5,7 @@ interface AdmWrapperProps {
 	children: ReactNode;
 }
 
-const AdmWrapper = ({ state, children }: AdmWrapperProps) => {
+const AdmLayout = ({ state, children }: AdmWrapperProps) => {
 	useEffect(() => {
 		if (!state) return;
 	}, [state]);
@@ -13,4 +13,4 @@ const AdmWrapper = ({ state, children }: AdmWrapperProps) => {
 	return <>{children}</>;
 };
 
-export default AdmWrapper;
+export default AdmLayout;

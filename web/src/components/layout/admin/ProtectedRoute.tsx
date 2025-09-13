@@ -1,7 +1,7 @@
 import { Navigate, Outlet } from 'react-router-dom';
 import { useAuth } from '../../../lib/hooks/useAuth';
 
-const ProtectedLayout = () => {
+const ProtectedRoute = () => {
 	const { isAuthenticated } = useAuth();
 
 	if (!isAuthenticated) return <Navigate to='/' replace />;
@@ -9,4 +9,4 @@ const ProtectedLayout = () => {
 	return <Outlet />;
 };
 
-export default ProtectedLayout;
+export default ProtectedRoute;
