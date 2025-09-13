@@ -36,7 +36,7 @@ const SignIn = ({
 
 		authLogin(user);
 		onCloseAuthForm();
-		navigate('/admin/', { replace: true });
+		navigate('/admin', { replace: true });
 	};
 
 	const {

@@ -1,16 +1,13 @@
-import { useEffect, type ReactNode } from 'react';
+import { Outlet } from 'react-router-dom';
+import AdmNavbar from './AdmNavbar';
 
-interface AdmWrapperProps {
-	state?: string;
-	children: ReactNode;
-}
-
-const AdmLayout = ({ state, children }: AdmWrapperProps) => {
-	useEffect(() => {
-		if (!state) return;
-	}, [state]);
-
-	return <>{children}</>;
+const AdmLayout = () => {
+	return (
+		<>
+			<AdmNavbar />
+			<Outlet />
+		</>
+	);
 };
 
 export default AdmLayout;

@@ -1,10 +1,12 @@
 import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../../lib/hooks/useAuth';
 
 const ProfileInfoCard = () => {
 	const navigate = useNavigate();
+	const { authLogout } = useAuth();
 
 	const handleLogout = () => {
-		localStorage.clear();
+		authLogout();
 		navigate('/');
 	};
 

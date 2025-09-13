@@ -22,7 +22,7 @@ const publicRoutes: RouteType[] = [
 const privateRoutes: RouteType[] = [
 	{
 		index: true,
-		path: '/admin/',
+		path: '/admin',
 		element: <DashboardPage />,
 		state: 'dashboard',
 		displayText: 'Dashboard'

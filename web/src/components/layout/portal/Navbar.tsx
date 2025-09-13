@@ -1,18 +1,18 @@
 import { ArrowRight, LucideSearch, Moon, Sun } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { useAuth } from '../../../lib/hooks/useAuth';
+import { useTheme } from '../../../lib/hooks/useTheme';
 import appRoutes from '../../../routes/appRoutes';
 import SwitchButton from '../../buttons/SwitchButton';
 import ProfileInfoCard from '../../cards/ProfileInfoCard';
 import Logo from '../../common/Logo';
 
 interface NavbarProps {
-	darkMode: boolean;
-	setDarkMode: () => void;
 	openAuthForm: () => void;
 }
 
-const Navbar = ({ darkMode, setDarkMode, openAuthForm }: NavbarProps) => {
+const Navbar = ({ openAuthForm }: NavbarProps) => {
+	const { theme, toggleTheme } = useTheme();
 	const { isAuthenticated } = useAuth();
 
 	return (
@@ -44,8 +44,8 @@ const Navbar = ({ darkMode, setDarkMode, openAuthForm }: NavbarProps) => {
 					</div>
 					<SwitchButton
 						name='theme'
-						checked={darkMode}
-						toggleCheck={setDarkMode}
+						checked={theme === 'dark'}
+						toggleCheck={toggleTheme}
 						control={{
 							leftValue: <Sun className='text-white' size={20} />,
 							rightValue: (

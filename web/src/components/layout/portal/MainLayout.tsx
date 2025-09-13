@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import { Outlet } from 'react-router-dom';
 import { useLoginModal } from '../../../lib/hooks/useLoginModal';
 import SignIn from '../../forms/auth/SignIn';
@@ -7,7 +6,6 @@ import Modal from '../../modal/Modal';
 import Navbar from './Navbar';
 
 const MainLayout = () => {
-	const [darkMode, setDarkMode] = useState(false);
 	const {
 		isLoginForm,
 		authModalStatus,
@@ -18,12 +16,8 @@ const MainLayout = () => {
 	} = useLoginModal();
 
 	return (
-		<div className={`${darkMode && 'dark'}`}>
-			<Navbar
-				darkMode={darkMode}
-				setDarkMode={() => setDarkMode(!darkMode)}
-				openAuthForm={openAuthForm}
-			/>
+		<>
+			<Navbar openAuthForm={openAuthForm} />
 			<Outlet />
 			<Modal open={authModalStatus} onClose={closeAuthForm} hideHeader>
 				{isLoginForm ? (
@@ -38,7 +32,7 @@ const MainLayout = () => {
 					/>
 				)}
 			</Modal>
-		</div>
+		</>
 	);
 };
 
