@@ -1,11 +1,18 @@
-import { Outlet } from 'react-router-dom';
+import type { ReactNode } from 'react';
 import AdmNavbar from './AdmNavbar';
+import AdmSidebar from './AdmSidebar';
 
-const AdmLayout = () => {
+const AdmLayout = ({ children }: { children: ReactNode }) => {
 	return (
 		<>
 			<AdmNavbar />
-			<Outlet />
+			<div className='flex'>
+				<div className='max-[1080px]:hidden'>
+					<AdmSidebar />
+				</div>
+
+				<div className='grow mx-5'>{children}</div>
+			</div>
 		</>
 	);
 };

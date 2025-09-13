@@ -9,6 +9,5 @@ export type RouteType = {
 };
 
 export interface AuthUser {
-	userId: number;
 	token: string;
 }

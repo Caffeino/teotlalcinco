@@ -15,9 +15,7 @@ const generatePrivateRoutes = (routes: RouteType[]): ReactNode => {
 		<Route
 			key={iKey}
 			path={route.path}
-			element={
-				<AdmLayout state={route.state ?? undefined}>{route.element}</AdmLayout>
-			}
+			element={<AdmLayout>{route.element}</AdmLayout>}
 		/>
 	));
 };

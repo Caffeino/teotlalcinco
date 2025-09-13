@@ -1,9 +1,12 @@
 import { LucideSearch, Moon, Sun } from 'lucide-react';
+import { useTheme } from '../../../lib/hooks/useTheme';
 import SwitchButton from '../../buttons/SwitchButton';
 import ProfileInfoCard from '../../cards/ProfileInfoCard';
 import Logo from '../../common/Logo';
 
 const AdmNavbar = () => {
+	const { theme, toggleTheme } = useTheme();
+
 	return (
 		<>
 			<header className='flex justify-between items-center px-4 sm:px-12 lg:px-24 xl:px-40 py-4 sticky top-0 z-20 backdrop-blur-xl font-medium bg-white/50 dark:bg-linear-to-t dark:from-blue-950 dark:to-sky-950'>
@@ -20,8 +23,8 @@ const AdmNavbar = () => {
 					</div>
 					<SwitchButton
 						name='theme'
-						checked={false}
-						toggleCheck={() => {}}
+						checked={theme === 'dark'}
+						toggleCheck={toggleTheme}
 						control={{
 							leftValue: <Sun className='text-white' size={20} />,
 							rightValue: (
