@@ -46,7 +46,7 @@ func (app *application) loginUserHandler(w http.ResponseWriter, r *http.Request)
 		return
 	}
 
-	user, err := app.store.Users.GetByEmailAndStatus(r.Context(), payload.Email, true)
+	user, err := app.store.Users.GetByEmail(r.Context(), payload.Email)
 	if err != nil {
 		switch err {
 		case store.ErrNotFound:

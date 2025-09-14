@@ -42,12 +42,12 @@ func (s *UserStore) AlreadyExists(ctx context.Context, username, email string) e
 	return nil
 }
 
-func (s *UserStore) GetByEmailAndStatus(ctx context.Context, email string, isActive bool) (*User, error) {
+func (s *UserStore) GetByEmail(ctx context.Context, email string) (*User, error) {
 	query := `
 		SELECT u.id, u.username, u.email, u.password, u.is_active, u.created_at, r.*
 		FROM users u
 		JOIN roles r ON u.role_id = r.id
-		WHERE u.email = $1 AND u.is_active = $2
+		WHERE u.email = $1 AND u.is_active = true
 	`
 
 	ctx, cancel := context.WithTimeout(ctx, QueryTimeDuration)
@@ -59,7 +59,6 @@ func (s *UserStore) GetByEmailAndStatus(ctx context.Context, email string, isAct
 		ctx,
 		query,
 		email,
-		isActive,
 	).Scan(
 		&user.ID,
 		&user.Username,
