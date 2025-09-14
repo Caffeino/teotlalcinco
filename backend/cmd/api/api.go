@@ -91,6 +91,18 @@ func (app *application) mount() http.Handler {
 			r.Post("/register", app.registerUserHandler)
 			r.Put("/active/{token}", app.activeUserHandler)
 		})
+
+		r.Route("/users", func(r chi.Router) {
+			r.Route("/profile/{userID}", func(r chi.Router) {
+				r.Use(app.AuthTokenMiddleware)
+
+				r.Get("/", app.getProfileHandler)
+			})
+
+			r.Route("/{userID}", func(r chi.Router) {
+				// TODO... it's a public resource.
+			})
+		})
 	})
 
 	return r

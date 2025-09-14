@@ -84,6 +84,47 @@ func (s *UserStore) GetByEmailAndStatus(ctx context.Context, email string, isAct
 	return user, nil
 }
 
+func (s *UserStore) GetByID(ctx context.Context, userID int64) (*User, error) {
+	query := `
+		SELECT u.id, u.username, u.email, u.password, u.is_active, u.created_at, r.*
+		FROM users u
+		JOIN roles r ON u.role_id = r.id
+		WHERE u.id = $1 AND u.is_active = true
+	`
+
+	ctx, cancel := context.WithTimeout(ctx, QueryTimeDuration)
+	defer cancel()
+
+	user := &User{}
+
+	err := s.db.QueryRowContext(
+		ctx,
+		query,
+		userID,
+	).Scan(
+		&user.ID,
+		&user.Username,
+		&user.Email,
+		&user.Password.hash,
+		&user.IsActive,
+		&user.CreatedAt,
+		&user.Role.ID,
+		&user.Role.Name,
+		&user.Role.Level,
+		&user.Role.Description,
+	)
+	if err != nil {
+		switch err {
+		case sql.ErrNoRows:
+			return nil, ErrNotFound
+		default:
+			return nil, err
+		}
+	}
+
+	return user, nil
+}
+
 func (s *UserStore) CreateAndInvite(ctx context.Context, user *User, token string, exp time.Duration) error {
 	// transaction wrapper
 	return withTx(s.db, ctx, func(tx *sql.Tx) error {
