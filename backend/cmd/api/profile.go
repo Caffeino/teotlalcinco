@@ -18,8 +18,8 @@ type RegisterProfilePayload struct {
 }
 
 type UserProfile struct {
-	*store.User
-	*store.Profile
+	User    *store.User
+	Profile *store.Profile
 }
 
 func (app *application) registerProfileHandler(w http.ResponseWriter, r *http.Request) {

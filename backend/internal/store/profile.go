@@ -13,7 +13,7 @@ type Profile struct {
 	Bio         string      `json:"bio"`
 	PhotoUrl    string      `json:"photo_url"`
 	BannerUrl   string      `json:"banner_url"`
-	ProfileType ProfileType `json:"profile"`
+	ProfileType ProfileType `json:"type"`
 	CreatedAt   string      `json:"created_at"`
 	UpdatedAt   string      `json:"updated_at"`
 }
