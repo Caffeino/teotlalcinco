@@ -101,7 +101,7 @@ func (app *application) registerUserHandler(w http.ResponseWriter, r *http.Reque
 
 	if err := app.store.Users.AlreadyExists(ctx, payload.Username, payload.Email); err != nil {
 		switch err {
-		case store.ErrAlreadyExists:
+		case store.ErrUserExists:
 			app.badRequestResponse(w, r, err)
 		default:
 			app.internalServerErrorResponse(w, r, err)

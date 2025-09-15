@@ -3,10 +3,8 @@ package main
 import (
 	"fmt"
 	"net/http"
-	"strconv"
 
 	"github.com/Caffeino/teotlalcinco/internal/store"
-	"github.com/go-chi/chi/v5"
 )
 
 type RegisterProfilePayload struct {
@@ -38,6 +36,19 @@ func (app *application) registerProfileHandler(w http.ResponseWriter, r *http.Re
 
 	user := getUserFromCtx(r)
 
+	ctx := r.Context()
+
+	if err := app.store.Profile.AlreadyExists(ctx, user.ID); err != nil {
+		switch err {
+		case store.ErrProfileExists:
+			app.badRequestResponse(w, r, err)
+		default:
+			app.internalServerErrorResponse(w, r, err)
+		}
+
+		return
+	}
+
 	profile := &store.Profile{
 		UserID:    user.ID,
 		FirstName: payload.FirstName,
@@ -46,8 +57,6 @@ func (app *application) registerProfileHandler(w http.ResponseWriter, r *http.Re
 		PhotoUrl:  payload.PhotoUrl,
 		BannerUrl: payload.BannerUrl,
 	}
-
-	ctx := r.Context()
 
 	if err := app.store.Profile.Create(ctx, profile); err != nil {
 		app.internalServerErrorResponse(w, r, err)
@@ -65,16 +74,11 @@ func (app *application) registerProfileHandler(w http.ResponseWriter, r *http.Re
 }
 
 func (app *application) getProfileHandler(w http.ResponseWriter, r *http.Request) {
-	userID, err := strconv.ParseInt(chi.URLParam(r, "userID"), 10, 64)
-	if err != nil {
-		app.badRequestResponse(w, r, err)
-		return
-	}
 
-	// TODO... Load the user profile
+	user := getUserFromCtx(r)
 
 	response := map[string]string{
-		"userID":  fmt.Sprintf("%v", userID),
+		"userID":  fmt.Sprintf("%v", user.ID),
 		"message": "output after token middleware",
 	}
 

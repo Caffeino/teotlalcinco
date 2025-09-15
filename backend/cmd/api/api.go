@@ -94,14 +94,15 @@ func (app *application) mount() http.Handler {
 
 		r.Route("/users", func(r chi.Router) {
 			r.Route("/profile", func(r chi.Router) {
-
+				// Authentication Token Middleware
 				r.Use(app.AuthTokenMiddleware)
 
+				r.Get("/", app.getProfileHandler)
 				r.Post("/", app.registerProfileHandler)
 			})
 
 			r.Route("/{userID}", func(r chi.Router) {
-				r.Get("/", app.getProfileHandler)
+				// TODO... it's a public resource.
 			})
 		})
 	})

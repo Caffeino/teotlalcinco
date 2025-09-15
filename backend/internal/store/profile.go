@@ -27,11 +27,31 @@ type ProfileStore struct {
 	db *sql.DB
 }
 
+func (s *ProfileStore) AlreadyExists(ctx context.Context, userID int64) error {
+	query := `SELECT COUNT(*) FROM profile WHERE user_id = $1`
+
+	ctx, cancel := context.WithTimeout(ctx, QueryTimeDuration)
+	defer cancel()
+
+	var count int
+
+	err := s.db.QueryRowContext(ctx, query, userID).Scan(&count)
+	if err != nil {
+		return err
+	}
+
+	if count > 0 {
+		return ErrProfileExists
+	}
+
+	return nil
+}
+
 func (s *ProfileStore) Create(ctx context.Context, profile *Profile) error {
 	query := `
 		INSERT INTO profile (user_id, first_name, last_name, bio, photo_url, banner_url, profile_type_id)
 		VALUES ($1, $2, $3, $4, $5, $6, (SELECT id FROM profile_type WHERE type = $7))
-		RETURNING id, created_at, updated_at
+		RETURNING id, profile_type_id, created_at, updated_at
 	`
 	ctx, cancel := context.WithTimeout(ctx, QueryTimeDuration)
 	defer cancel()
@@ -53,6 +73,7 @@ func (s *ProfileStore) Create(ctx context.Context, profile *Profile) error {
 		profileType,
 	).Scan(
 		&profile.ID,
+		&profile.ProfileType.ID,
 		&profile.CreatedAt,
 		&profile.UpdatedAt,
 	)

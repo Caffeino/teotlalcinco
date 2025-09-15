@@ -10,7 +10,8 @@ import (
 var (
 	QueryTimeDuration = time.Second * 5
 	ErrNotFound       = errors.New("resource not found")
-	ErrAlreadyExists  = errors.New("an user with that username or email already exists")
+	ErrUserExists     = errors.New("an user with that username or email already exists")
+	ErrProfileExists  = errors.New("this user's profile already exists")
 )
 
 type Storage struct {
@@ -23,6 +24,7 @@ type Storage struct {
 		GetByID(ctx context.Context, userID int64) (*User, error)
 	}
 	Profile interface {
+		AlreadyExists(ctx context.Context, userID int64) error
 		Create(ctx context.Context, profile *Profile) error
 	}
 }
