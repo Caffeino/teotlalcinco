@@ -1,7 +1,6 @@
 package main
 
 import (
-	"fmt"
 	"net/http"
 
 	"github.com/Caffeino/teotlalcinco/internal/store"
@@ -74,15 +73,27 @@ func (app *application) registerProfileHandler(w http.ResponseWriter, r *http.Re
 }
 
 func (app *application) getProfileHandler(w http.ResponseWriter, r *http.Request) {
-
+	// Get user from Contex
 	user := getUserFromCtx(r)
 
-	response := map[string]string{
-		"userID":  fmt.Sprintf("%v", user.ID),
-		"message": "output after token middleware",
+	profile, err := app.store.Profile.GetByUserID(r.Context(), user.ID)
+	if err != nil {
+		switch err {
+		case store.ErrNotFound:
+			app.notFoundResponse(w, r, err)
+		default:
+			app.internalServerErrorResponse(w, r, err)
+		}
+
+		return
 	}
 
-	if err := app.jsonResponse(w, http.StatusOK, response); err != nil {
+	userProfile := UserProfile{
+		User:    user,
+		Profile: profile,
+	}
+
+	if err := app.jsonResponse(w, http.StatusOK, userProfile); err != nil {
 		app.internalServerErrorResponse(w, r, err)
 	}
 }

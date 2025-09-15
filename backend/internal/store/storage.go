@@ -26,6 +26,7 @@ type Storage struct {
 	Profile interface {
 		AlreadyExists(ctx context.Context, userID int64) error
 		Create(ctx context.Context, profile *Profile) error
+		GetByUserID(ctx context.Context, userID int64) (*Profile, error)
 	}
 }
 

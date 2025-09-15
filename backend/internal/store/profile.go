@@ -84,3 +84,46 @@ func (s *ProfileStore) Create(ctx context.Context, profile *Profile) error {
 
 	return nil
 }
+
+func (s *ProfileStore) GetByUserID(ctx context.Context, userID int64) (*Profile, error) {
+	query := `
+		SELECT 
+		p.id, p.user_id, p.first_name, p.last_name, p.bio, p.photo_url, p.banner_url, p.created_at, p.updated_at, t.id, t.type
+		FROM profile p
+		JOIN profile_type t ON p.profile_type_id = t.id
+		WHERE p.user_id = $1
+	`
+
+	ctx, cancel := context.WithTimeout(ctx, QueryTimeDuration)
+	defer cancel()
+
+	profile := &Profile{}
+
+	err := s.db.QueryRowContext(
+		ctx,
+		query,
+		userID,
+	).Scan(
+		&profile.ID,
+		&profile.UserID,
+		&profile.FirstName,
+		&profile.LastName,
+		&profile.Bio,
+		&profile.PhotoUrl,
+		&profile.BannerUrl,
+		&profile.CreatedAt,
+		&profile.UpdatedAt,
+		&profile.ProfileType.ID,
+		&profile.ProfileType.Type,
+	)
+	if err != nil {
+		switch err {
+		case sql.ErrNoRows:
+			return nil, ErrNotFound
+		default:
+			return nil, err
+		}
+	}
+
+	return profile, nil
+}
