@@ -33,8 +33,9 @@ type RegisterUserEnvelope struct {
 }
 
 type LoginUserEnvelope struct {
-	Token    string `json:"token"`
-	IsActive bool   `json:"is_active"`
+	*store.User
+	Profile *store.Profile `json:"profile"`
+	Token   string         `json:"token"`
 }
 
 func (app *application) loginUserHandler(w http.ResponseWriter, r *http.Request) {
@@ -69,11 +70,17 @@ func (app *application) loginUserHandler(w http.ResponseWriter, r *http.Request)
 	}
 
 	if !user.IsActive {
-		envelope := LoginUserEnvelope{IsActive: user.IsActive}
+		envelope := LoginUserEnvelope{User: user}
 		if err := app.jsonResponse(w, http.StatusOK, envelope); err != nil {
 			app.internalServerErrorResponse(w, r, err)
 		}
 
+		return
+	}
+
+	profile, err := app.store.Profile.GetByUserID(r.Context(), user.ID)
+	if err != nil && err != store.ErrNotFound {
+		app.internalServerErrorResponse(w, r, err)
 		return
 	}
 
@@ -93,8 +100,9 @@ func (app *application) loginUserHandler(w http.ResponseWriter, r *http.Request)
 	}
 
 	envelope := LoginUserEnvelope{
-		Token:    token,
-		IsActive: user.IsActive,
+		User:    user,
+		Profile: profile,
+		Token:   token,
 	}
 
 	if err := app.jsonResponse(w, http.StatusCreated, envelope); err != nil {
