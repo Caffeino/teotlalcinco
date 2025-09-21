@@ -1,5 +1,6 @@
 import { useEffect, useState, type ReactNode } from 'react';
-import type { AuthUser } from '../../types';
+import type { AuthUserType } from '../../types';
+import { fetchUser } from '../api/auth';
 import { AuthContext } from './AuthContext';
 
 interface AuthProviderProps {
@@ -7,34 +8,47 @@ interface AuthProviderProps {
 }
 
 export const AuthProvider = ({ children }: AuthProviderProps) => {
-	const [auth, setAuth] = useState<AuthUser | null>(null);
+	const [auth, setAuth] = useState<AuthUserType | null>(null);
 	const [loading, setLoading] = useState(true);
 
 	useEffect(() => {
-		const loadAuthUser = () => {
+		if (auth) return;
+
+		const authToken = localStorage.getItem('token');
+
+		if (!authToken) return setLoading(false);
+
+		const loadAuthUser = async () => {
 			try {
-				const savedUser = localStorage.getItem('auth');
+				const user = await fetchUser();
+				if (!user)
+					throw new Error(
+						'Error al iniciar sesión, inténte de nuevo más tarde.'
+					);
 
-				if (savedUser) setAuth(JSON.parse(savedUser));
+				console.log(user);
 
-				setLoading(false);
+				setAuth(user);
 			} catch (error) {
 				console.log('Error parsing saved user:', error);
-				localStorage.removeItem('auth');
+				localStorage.removeItem('token');
+			} finally {
+				setLoading(false);
 			}
 		};
 
 		loadAuthUser();
-	}, []);
+	}, [auth]);
 
-	const authLogin = (userData: AuthUser) => {
+	const authLogin = (userData: AuthUserType) => {
 		setAuth(userData);
-		localStorage.setItem('auth', JSON.stringify(userData));
+		const { token } = userData;
+		if (token) localStorage.setItem('token', token);
 	};
 
 	const authLogout = () => {
 		setAuth(null);
-		localStorage.removeItem('auth');
+		localStorage.removeItem('token');
 	};
 
 	if (loading) return null;

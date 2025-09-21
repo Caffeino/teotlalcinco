@@ -3,7 +3,7 @@ import { useAuth } from '../../lib/hooks/useAuth';
 
 const ProfileInfoCard = () => {
 	const navigate = useNavigate();
-	const { authLogout } = useAuth();
+	const { auth, authLogout } = useAuth();
 
 	const handleLogout = () => {
 		authLogout();
@@ -19,7 +19,7 @@ const ProfileInfoCard = () => {
 			/> */}
 			<div>
 				<div className='text-sm font-semibold leading-3 hover:text-primary dark:text-white cursor-pointer'>
-					Andres
+					{auth?.username}
 				</div>
 				<button
 					className='text-sm font-normal hover:underline hover:text-primary dark:text-white cursor-pointer'

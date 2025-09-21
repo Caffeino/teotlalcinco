@@ -5,8 +5,7 @@ export const apiRequest = async (
 	url: string,
 	options: RequestInit
 ): Promise<Response> => {
-	const auth = localStorage.getItem('auth');
-	const token = auth ? JSON.parse(auth).token : null;
+	const token = localStorage.getItem('token');
 
 	const defaultHeaders = {
 		'Content-Type': 'application/json',

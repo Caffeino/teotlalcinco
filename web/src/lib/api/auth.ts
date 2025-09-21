@@ -1,10 +1,10 @@
-import type { AuthUser } from '../../types';
+import type { AuthUserType } from '../../types';
 import { API_BASE_URL, apiRequest } from './api';
 
 export const login = async (
 	email: string,
 	password: string
-): Promise<AuthUser | null> => {
+): Promise<AuthUserType | null> => {
 	try {
 		const res = await apiRequest(`${API_BASE_URL}/v1/auth/login`, {
 			method: 'POST',
@@ -16,6 +16,21 @@ export const login = async (
 		return await res.json();
 	} catch (err) {
 		console.log('Login error', err);
+		return null;
+	}
+};
+
+export const fetchUser = async (): Promise<AuthUserType | null> => {
+	try {
+		const res = await apiRequest(`${API_BASE_URL}/v1/users/profile`, {
+			method: 'GET'
+		});
+
+		if (!res.ok) return null;
+
+		return await res.json();
+	} catch (err) {
+		console.log('Error', err);
 		return null;
 	}
 };
