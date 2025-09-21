@@ -10,4 +10,5 @@ export type RouteType = {
 
 export interface AuthUser {
 	token: string;
+	is_active: boolean;
 }

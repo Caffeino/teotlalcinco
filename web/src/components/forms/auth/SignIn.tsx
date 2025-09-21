@@ -34,8 +34,15 @@ const SignIn = ({
 		if (!user)
 			throw new Error('Error al iniciar sesión, inténte de nuevo más tarde.');
 
-		authLogin(user);
 		onCloseAuthForm();
+
+		if (!user.is_active) {
+			// TODO... integrate page
+			navigate('/activate', { replace: true });
+			return;
+		}
+
+		authLogin(user);
 		navigate('/admin/dashboard', { replace: true });
 	};
 
