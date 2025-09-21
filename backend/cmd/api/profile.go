@@ -14,9 +14,29 @@ type RegisterProfilePayload struct {
 	BannerUrl string `json:"banner_url"`
 }
 
-type UserProfile struct {
-	User    *store.User
-	Profile *store.Profile
+type ProfileEnvelope struct {
+	*store.User
+	Profile *store.Profile `json:"profile"`
+}
+
+func (app *application) getProfileHandler(w http.ResponseWriter, r *http.Request) {
+	// Get user from Contex
+	user := getUserFromCtx(r)
+
+	profile, err := app.store.Profile.GetByUserID(r.Context(), user.ID)
+	if err != nil && err != store.ErrNotFound {
+		app.internalServerErrorResponse(w, r, err)
+		return
+	}
+
+	userProfile := ProfileEnvelope{
+		User:    user,
+		Profile: profile,
+	}
+
+	if err := app.jsonResponse(w, http.StatusOK, userProfile); err != nil {
+		app.internalServerErrorResponse(w, r, err)
+	}
 }
 
 func (app *application) registerProfileHandler(w http.ResponseWriter, r *http.Request) {
@@ -62,32 +82,12 @@ func (app *application) registerProfileHandler(w http.ResponseWriter, r *http.Re
 		return
 	}
 
-	userProfile := UserProfile{
+	userProfile := ProfileEnvelope{
 		User:    user,
 		Profile: profile,
 	}
 
 	if err := app.jsonResponse(w, http.StatusCreated, userProfile); err != nil {
-		app.internalServerErrorResponse(w, r, err)
-	}
-}
-
-func (app *application) getProfileHandler(w http.ResponseWriter, r *http.Request) {
-	// Get user from Contex
-	user := getUserFromCtx(r)
-
-	profile, err := app.store.Profile.GetByUserID(r.Context(), user.ID)
-	if err != nil && err != store.ErrNotFound {
-		app.internalServerErrorResponse(w, r, err)
-		return
-	}
-
-	userProfile := UserProfile{
-		User:    user,
-		Profile: profile,
-	}
-
-	if err := app.jsonResponse(w, http.StatusOK, userProfile); err != nil {
 		app.internalServerErrorResponse(w, r, err)
 	}
 }

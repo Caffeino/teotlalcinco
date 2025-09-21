@@ -7,11 +7,7 @@ import (
 )
 
 func (app *application) jsonResponse(w http.ResponseWriter, status int, data any) error {
-	type envelope struct {
-		Data any `json:"data"`
-	}
-
-	return writeJSON(w, status, &envelope{Data: data})
+	return writeJSON(w, status, data)
 }
 
 func (app *application) noContentResponse(w http.ResponseWriter, status int) {

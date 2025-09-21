@@ -47,7 +47,7 @@ func (s *UserStore) GetByEmail(ctx context.Context, email string) (*User, error)
 		SELECT u.id, u.username, u.email, u.password, u.is_active, u.created_at, r.*
 		FROM users u
 		JOIN roles r ON u.role_id = r.id
-		WHERE u.email = $1 AND u.is_active = true
+		WHERE u.email = $1
 	`
 
 	ctx, cancel := context.WithTimeout(ctx, QueryTimeDuration)

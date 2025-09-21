@@ -22,14 +22,19 @@ type LoginUserPayload struct {
 	Password string `json:"password" validate:"required,min=8,max=70"`
 }
 
-type UserWithToken struct {
+type UserWelcomeEmailData struct {
+	Username      string
+	ActivationURL string
+}
+
+type RegisterUserEnvelope struct {
 	*store.User
 	Token string `json:"token"`
 }
 
-type UserWelcomeEmailData struct {
-	Username      string
-	ActivationURL string
+type LoginUserEnvelope struct {
+	Token    string `json:"token"`
+	IsActive bool   `json:"is_active"`
 }
 
 func (app *application) loginUserHandler(w http.ResponseWriter, r *http.Request) {
@@ -63,6 +68,15 @@ func (app *application) loginUserHandler(w http.ResponseWriter, r *http.Request)
 		return
 	}
 
+	if !user.IsActive {
+		envelope := LoginUserEnvelope{IsActive: user.IsActive}
+		if err := app.jsonResponse(w, http.StatusUnauthorized, envelope); err != nil {
+			app.internalServerErrorResponse(w, r, err)
+		}
+
+		return
+	}
+
 	claims := jwt.MapClaims{
 		"sub": user.ID,
 		"exp": time.Now().Add(app.config.auth.token.exp).Unix(),
@@ -78,7 +92,12 @@ func (app *application) loginUserHandler(w http.ResponseWriter, r *http.Request)
 		return
 	}
 
-	if err := app.jsonResponse(w, http.StatusCreated, token); err != nil {
+	envelope := LoginUserEnvelope{
+		Token:    token,
+		IsActive: user.IsActive,
+	}
+
+	if err := app.jsonResponse(w, http.StatusCreated, envelope); err != nil {
 		app.internalServerErrorResponse(w, r, err)
 	}
 }
@@ -150,12 +169,12 @@ func (app *application) registerUserHandler(w http.ResponseWriter, r *http.Reque
 
 	app.logger.Infow("email sent", "status code", status)
 
-	userWithToken := UserWithToken{
+	envelope := RegisterUserEnvelope{
 		User:  user,
 		Token: plainToken,
 	}
 
-	if err := app.jsonResponse(w, http.StatusOK, userWithToken); err != nil {
+	if err := app.jsonResponse(w, http.StatusOK, envelope); err != nil {
 		app.internalServerErrorResponse(w, r, err)
 		return
 	}
