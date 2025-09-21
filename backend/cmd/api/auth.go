@@ -70,7 +70,7 @@ func (app *application) loginUserHandler(w http.ResponseWriter, r *http.Request)
 
 	if !user.IsActive {
 		envelope := LoginUserEnvelope{IsActive: user.IsActive}
-		if err := app.jsonResponse(w, http.StatusUnauthorized, envelope); err != nil {
+		if err := app.jsonResponse(w, http.StatusOK, envelope); err != nil {
 			app.internalServerErrorResponse(w, r, err)
 		}
 
