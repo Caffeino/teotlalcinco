@@ -77,14 +77,8 @@ func (app *application) getProfileHandler(w http.ResponseWriter, r *http.Request
 	user := getUserFromCtx(r)
 
 	profile, err := app.store.Profile.GetByUserID(r.Context(), user.ID)
-	if err != nil {
-		switch err {
-		case store.ErrNotFound:
-			app.notFoundResponse(w, r, err)
-		default:
-			app.internalServerErrorResponse(w, r, err)
-		}
-
+	if err != nil && err != store.ErrNotFound {
+		app.internalServerErrorResponse(w, r, err)
 		return
 	}
 
