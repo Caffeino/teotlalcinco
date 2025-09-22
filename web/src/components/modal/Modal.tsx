@@ -20,7 +20,7 @@ const Modal = ({
 	return (
 		<div className='fixed inset-0 z-50 flex justify-center items-center w-full h-full bg-black/40'>
 			<div
-				className={`relative flex flex-col bg-white dark:bg-linear-to-t dark:from-blue-950 dark:to-sky-900 shadow-lg rounded-lg overflow-hidden`}
+				className={`relative flex flex-col bg-white dark:bg-linear-to-t dark:from-zinc-900 dark:to-zinc-700 shadow-lg rounded-lg overflow-hidden`}
 			>
 				{!hideHeader && (
 					<div className='flex items-center justify-between p-4 border-b border-gray-200'>

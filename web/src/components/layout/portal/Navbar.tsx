@@ -17,7 +17,7 @@ const Navbar = ({ openAuthForm }: NavbarProps) => {
 
 	return (
 		<>
-			<header className='flex justify-between items-center px-4 sm:px-12 lg:px-24 xl:px-40 py-4 sticky top-0 z-20 backdrop-blur-xl font-medium bg-white/50 dark:bg-linear-to-t dark:from-blue-950 dark:to-sky-950'>
+			<header className='w-[80%] py-2 m-auto flex items-center justify-between backdrop-blur-xl font-medium bg-gray-50 dark:bg-[#252528]'>
 				<Logo />
 				<nav className='flex items-center'>
 					<ul className='flex gap-6 text-slate-800 dark:text-white sm:text-[1rem] font-semibold max-sm:w-60 max-sm:pl-10 max-sm:fixed top-0 bottom-0 right-0 max-sm:min-h-screen max-sm:h-full max-sm:flex-col max-sm:bg-cyan-500 max-sm:text-white max-sm:pt-20 sm:items-center transition-all'>

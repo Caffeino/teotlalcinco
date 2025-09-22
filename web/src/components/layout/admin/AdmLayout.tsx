@@ -5,13 +5,15 @@ import AdmSidebar from './AdmSidebar';
 const AdmLayout = ({ children }: { children: ReactNode }) => {
 	return (
 		<>
-			<AdmNavbar />
 			<div className='flex'>
 				<div className='max-[1080px]:hidden'>
 					<AdmSidebar />
 				</div>
 
-				<div className='grow mx-5'>{children}</div>
+				<div className='grow mx-6'>
+					<AdmNavbar />
+					{children}
+				</div>
 			</div>
 		</>
 	);
