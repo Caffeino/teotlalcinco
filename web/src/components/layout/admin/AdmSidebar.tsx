@@ -1,8 +1,18 @@
+import { Power } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
+import { SIDE_ADMIN_ROUTES } from '../../../constants/sideRoutes';
 import { useAuth } from '../../../lib/hooks/useAuth';
 import CharAvatar from '../../cards/CharAvatar';
 
-const AdmSidebar = () => {
-	const { auth, isAuthenticated } = useAuth();
+const AdmSidebar = ({ activeMenu }: { activeMenu?: string }) => {
+	const { auth, isAuthenticated, authLogout } = useAuth();
+
+	const navigate = useNavigate();
+
+	const handleLogout = () => {
+		authLogout();
+		navigate('/');
+	};
 
 	const name: string = auth?.profile?.first_name
 		? auth?.profile?.first_name
@@ -30,6 +40,30 @@ const AdmSidebar = () => {
 					</div>
 				</div>
 			)}
+
+			<div className='py-4'>
+				{SIDE_ADMIN_ROUTES.map((item, index) => (
+					<button
+						key={`menu_${index}`}
+						className={`w-full flex items-center gap-4 text-[15px] ${
+							activeMenu == item.label
+								? 'text-white bg-linear-to-r from-sky-500 to-cyan-400'
+								: 'dark:text-slate-400 dark:hover:bg-linear-to-r dark:hover:from-zinc-800 dark:to-zinc-700'
+						} hover:text-primary py-3 px-6 rounded-lg mb-3 cursor-pointer`}
+						onClick={() => {}}
+					>
+						<item.icon className='text-xl' />
+						{item.label}
+					</button>
+				))}
+				<button
+					className='dark:text-slate-400 w-full flex items-center gap-4 text-[15px] hover:text-primary py-3 px-6 rounded-lg mb-3 cursor-pointer'
+					onClick={() => handleLogout()}
+				>
+					<Power className='text-xl' />
+					Logout
+				</button>
+			</div>
 		</div>
 	);
 };
