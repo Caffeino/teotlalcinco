@@ -31,7 +31,7 @@ export interface AuthProfileType {
 	type: ProfileType;
 }
 
-interface ProfileType {
+export interface ProfileType {
 	id: number;
 	type: string;
 }

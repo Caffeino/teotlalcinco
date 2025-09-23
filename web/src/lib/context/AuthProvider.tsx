@@ -1,4 +1,5 @@
 import { useEffect, useState, type ReactNode } from 'react';
+import { USER_PROFILE_INITIAL_STATE } from '../../constants/initialState';
 import type { AuthUserType } from '../../types';
 import { fetchUser } from '../api/auth';
 import { AuthContext } from './AuthContext';
@@ -8,11 +9,12 @@ interface AuthProviderProps {
 }
 
 export const AuthProvider = ({ children }: AuthProviderProps) => {
-	const [auth, setAuth] = useState<AuthUserType | null>(null);
+	const [auth, setAuth] = useState<AuthUserType>(USER_PROFILE_INITIAL_STATE);
 	const [loading, setLoading] = useState(true);
 
 	useEffect(() => {
-		if (auth) return;
+		console.log('user', auth);
+		if (auth.id) return;
 
 		const authToken = localStorage.getItem('token');
 
@@ -26,7 +28,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
 						'Error al iniciar sesión, inténte de nuevo más tarde.'
 					);
 
-				console.log(user);
+				console.log('user fetch', user);
 
 				setAuth(user);
 			} catch (error) {
@@ -44,10 +46,11 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
 		setAuth(userData);
 		const { token } = userData;
 		if (token) localStorage.setItem('token', token);
+		setLoading(false);
 	};
 
 	const authLogout = () => {
-		setAuth(null);
+		setAuth(USER_PROFILE_INITIAL_STATE);
 		localStorage.removeItem('token');
 	};
 
@@ -57,7 +60,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
 		auth,
 		authLogin,
 		authLogout,
-		isAuthenticated: !!auth
+		isAuthenticated: auth.id > 0
 	};
 
 	return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

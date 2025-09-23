@@ -1,20 +1,25 @@
+import { Menu } from 'lucide-react';
 import OLogo from '../../assets/o-logo.svg';
 
 const Logo = () => {
 	return (
-		<div className='flex flex-row items-center leading-none gap-0.5'>
-			<p className='lg:text-[1.8rem] md:text-[1.45rem] sm:text-[1.45rem] font-michroma font-semibold text-slate-800 dark:text-white'>
-				Te
-			</p>
-			<img
-				src={OLogo}
-				alt='logo'
-				className='h-[1.75rem] md:h-[1.5rem] sm:[1.45rem] top-0.5 relative'
-			/>
-			<p className='lg:text-[1.8rem] md:text-[1.45rem] sm:text-[1.45rem] font-michroma font-semibold text-slate-800 dark:text-white'>
-				tlal5
-			</p>
-		</div>
+		<>
+			<div className='flex items-center justify-start rtl:justify-end'>
+				<button
+					type='button'
+					className='inline-flex items-center p-2 text-sm text-gray-500 rounded-lg sm:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600'
+				>
+					<span className='sr-only'>Open sidebar</span>
+					<Menu />
+				</button>
+				<a href='/' className='flex ms-2 md:me-24'>
+					<img src={OLogo} className='h-6 me-2 ms-2' alt='Teotlal5 Logo' />
+					<span className='self-center text-lg font-semibold font-michroma sm:text-lg whitespace-nowrap dark:text-zinc-400 -mt-1'>
+						Teotlal5
+					</span>
+				</a>
+			</div>
+		</>
 	);
 };
 

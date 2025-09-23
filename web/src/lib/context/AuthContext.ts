@@ -2,7 +2,7 @@ import { createContext } from 'react';
 import type { AuthUserType } from '../../types';
 
 interface AuthContextType {
-	auth: AuthUserType | null;
+	auth: AuthUserType;
 	authLogin: (user: AuthUserType) => void;
 	authLogout: () => void;
 	isAuthenticated: boolean;

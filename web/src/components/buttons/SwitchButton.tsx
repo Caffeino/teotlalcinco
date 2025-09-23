@@ -1,7 +1,7 @@
 import clsx from 'clsx';
 import type { ReactNode } from 'react';
 
-interface ControlProps {
+export interface ControlProps {
 	leftValue: ReactNode | string;
 	rightValue: ReactNode | string;
 }
@@ -17,9 +17,9 @@ interface SwitchButtonProps {
 
 const btnCls = {
 	box: {
-		base: 'rounded-full shadow-inner border',
+		base: 'rounded-lg shadow-inner border',
 		sizes: {
-			lg: 'h-4 w-12'
+			lg: 'h-4 w-8'
 		},
 		variants: {
 			secondary: {
@@ -30,9 +30,9 @@ const btnCls = {
 		}
 	},
 	input: {
-		base: 'absolute flex items-center justify-center rounded-full',
+		base: 'absolute flex items-center justify-center rounded-full dark:shadow-sm dark:shadow-zinc-700',
 		sizes: {
-			lg: '-top-1.5 h-7 w-7'
+			lg: 'top-[-5px] h-6 w-6'
 		},
 		variants: {
 			secondary: {
@@ -67,7 +67,7 @@ const SwitchButton = ({
 						)}
 					>
 						<div
-							className={`${checked ? 'translate-x-5 duration-300 ease-in-out transition-all' : 'translate-x-0 duration-300 ease-in-out'}`}
+							className={`${checked ? 'translate-x-4 duration-300 ease-in-out transition-all' : '-translate-x-3 duration-300 ease-in-out'}`}
 						>
 							<div
 								className={clsx(
