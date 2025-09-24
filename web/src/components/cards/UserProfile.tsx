@@ -29,7 +29,7 @@ const UserProfile = () => {
 			<div className='inline-block'>
 				<button
 					type='button'
-					className='flex text-sm bg-gray-800 rounded-full focus:ring-4 focus:ring-gray-300 dark:focus:ring-zinc-700'
+					className='flex text-sm bg-slate-400 rounded-full focus:ring-4 focus:ring-gray-400 dark:focus:ring-zinc-700'
 					onMouseEnter={() => setShowUserMenu(true)}
 				>
 					<span className='sr-only'>Open user menu</span>
@@ -47,11 +47,11 @@ const UserProfile = () => {
 					className='min-w-48 absolute right-2 top-14 text-base list-none bg-white divide-y divide-gray-100 rounded-lg shadow-md border border-gray-200 dark:border-[#2d2d35] dark:divide-zinc-600 dark:bg-linear-to-t dark:from-zinc-800 dark:to-zinc-700'
 				>
 					<div className='px-4 py-3' role='none'>
-						<p className='text-sm text-gray-900 dark:text-white' role='none'>
+						<p className='text-sm text-slate-600 dark:text-white' role='none'>
 							{name} {auth.profile?.last_name}
 						</p>
 						<p
-							className='text-xs font-normal text-gray-900 truncate dark:text-zinc-300'
+							className='text-xs font-normal text-slate-500 truncate dark:text-zinc-300'
 							role='none'
 						>
 							{auth.email}
@@ -59,14 +59,14 @@ const UserProfile = () => {
 					</div>
 					<div className='py-1'>
 						<button
-							className='w-full flex flex-row items-center gap-3 px-4 py-2 cursor-pointer text-sm text-gray-700 hover:bg-gray-100 dark:text-zinc-400 dark:hover:text-zinc-200 dark:hover:bg-linear-to-r dark:hover:from-sky-700 dark:hover:to-fuchsia-900'
+							className='w-full flex flex-row items-center gap-3 px-4 py-2 cursor-pointer text-sm text-slate-600 hover:text-white hover:bg-linear-to-r hover:from-sky-500 hover:to-fuchsia-500 dark:text-zinc-400 dark:hover:text-zinc-200 dark:hover:bg-linear-to-r dark:hover:from-sky-700 dark:hover:to-fuchsia-900'
 							role='menuitem'
 						>
 							<CircleUserRound size={16} />
 							Perfil
 						</button>
 						<button
-							className='w-full flex flex-row items-center gap-3 px-4 py-2 cursor-pointer text-sm text-gray-700 hover:bg-gray-100 dark:text-zinc-400 dark:hover:text-zinc-200 dark:hover:bg-linear-to-r dark:hover:from-sky-700 dark:hover:to-fuchsia-900'
+							className='w-full flex flex-row items-center gap-3 px-4 py-2 cursor-pointer text-sm text-slate-600 hover:text-white hover:bg-linear-to-r hover:from-sky-500 hover:to-fuchsia-500 dark:text-zinc-400 dark:hover:text-zinc-200 dark:hover:bg-linear-to-r dark:hover:from-sky-700 dark:hover:to-fuchsia-900'
 							onClick={() => handleLogout()}
 						>
 							<Power size={16} />

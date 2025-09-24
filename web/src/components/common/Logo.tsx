@@ -15,7 +15,7 @@ const Logo = ({ toggleSidebar }: { toggleSidebar?: () => void }) => {
 				</button>
 				<a href='/' className='flex ms-2 md:me-24'>
 					<img src={OLogo} className='h-6 me-2 ms-2' alt='Teotlal5 Logo' />
-					<span className='self-center text-lg font-semibold font-michroma sm:text-lg whitespace-nowrap dark:text-zinc-400 -mt-1'>
+					<span className='self-center text-lg font-medium font-michroma sm:text-lg whitespace-nowrap text-slate-600 dark:text-zinc-300 -mt-1'>
 						Teotlal5
 					</span>
 				</a>

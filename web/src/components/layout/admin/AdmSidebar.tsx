@@ -14,10 +14,10 @@ const AdmSidebar = ({ state }: { state: string }) => {
 					{SIDE_ADMIN_ROUTES.map((item, index) => (
 						<button
 							key={index}
-							className={`w-full flex items-center p-2 group cursor-pointer rounded-lg text-gray-900 hover:bg-gray-100 ${
+							className={`w-full flex items-center p-2 group cursor-pointer rounded-lg hover:text-white hover:bg-linear-to-r hover:from-sky-500 hover:to-fuchsia-500 ${
 								state == item.state
-									? 'dark:text-zinc-200 dark:bg-linear-to-r dark:from-sky-700 dark:to-sky-900'
-									: 'dark:text-zinc-400'
+									? 'text-white bg-linear-to-r from-sky-500 to-sky-700 dark:text-zinc-200 dark:bg-linear-to-r dark:from-sky-700 dark:to-sky-900'
+									: 'text-slate-600 dark:text-zinc-400'
 							} dark:hover:text-zinc-200 dark:hover:bg-linear-to-r dark:hover:from-sky-700 dark:hover:to-fuchsia-900`}
 						>
 							<item.icon className='w-5 h-5' />
