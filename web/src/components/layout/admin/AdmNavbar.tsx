@@ -10,13 +10,13 @@ const switchButtonControl: ControlProps = {
 };
 
 const AdmNavbar = () => {
-	const { theme, toggleTheme } = useTheme();
+	const { theme, toggleTheme, toggleSidebar } = useTheme();
 
 	return (
-		<nav className='fixed top-0 z-50 w-full bg-white dark:bg-[#252528]'>
+		<nav className='fixed top-0 z-50 w-full bg-white border-b border-gray-200 dark:bg-zinc-800 dark:border-[#2d2d35]'>
 			<div className='px-3 py-3 lg:px-5 lg:pl-3'>
 				<div className='flex items-center justify-between'>
-					<Logo />
+					<Logo toggleSidebar={toggleSidebar} />
 					<div className='flex items-center'>
 						<div className='flex items-center gap-6'>
 							<SwitchButton

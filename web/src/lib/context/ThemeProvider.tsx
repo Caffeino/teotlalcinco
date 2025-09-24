@@ -6,6 +6,7 @@ interface ThemeProviderProps {
 }
 
 export const ThemeProvider = ({ children }: ThemeProviderProps) => {
+	const [isOpenSidebar, setIsOpenSidebar] = useState(false);
 	const [theme, setTheme] = useState(() => {
 		if (localStorage.theme) return localStorage.theme;
 
@@ -23,7 +24,9 @@ export const ThemeProvider = ({ children }: ThemeProviderProps) => {
 		localStorage.setItem('theme', theme);
 	}, [theme]);
 
-	const value = { theme, toggleTheme };
+	const toggleSidebar = () => setIsOpenSidebar(!isOpenSidebar);
+
+	const value = { theme, isOpenSidebar, toggleTheme, toggleSidebar };
 
 	return (
 		<ThemeContext.Provider value={value}>{children}</ThemeContext.Provider>

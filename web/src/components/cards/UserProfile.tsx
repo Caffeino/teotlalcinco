@@ -44,7 +44,7 @@ const UserProfile = () => {
 			{showUserMenu && (
 				<div
 					ref={ref}
-					className='min-w-48 absolute right-2 top-14 text-base list-none bg-white divide-y divide-gray-100 rounded-sm shadow-md dark:divide-zinc-600 dark:bg-linear-to-t dark:from-zinc-800/95 dark:to-zinc-600'
+					className='min-w-48 absolute right-2 top-14 text-base list-none bg-white divide-y divide-gray-100 rounded-lg shadow-md border border-gray-200 dark:border-[#2d2d35] dark:divide-zinc-600 dark:bg-linear-to-t dark:from-zinc-800 dark:to-zinc-700'
 				>
 					<div className='px-4 py-3' role='none'>
 						<p className='text-sm text-gray-900 dark:text-white' role='none'>
@@ -59,14 +59,14 @@ const UserProfile = () => {
 					</div>
 					<div className='py-1'>
 						<button
-							className='w-full flex flex-row items-center gap-3 px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-zinc-300 dark:hover:bg-zinc-800 dark:hover:text-zinc-200 cursor-pointer'
+							className='w-full flex flex-row items-center gap-3 px-4 py-2 cursor-pointer text-sm text-gray-700 hover:bg-gray-100 dark:text-zinc-400 dark:hover:text-zinc-200 dark:hover:bg-linear-to-r dark:hover:from-sky-700 dark:hover:to-fuchsia-900'
 							role='menuitem'
 						>
 							<CircleUserRound size={16} />
 							Perfil
 						</button>
 						<button
-							className='w-full flex flex-row items-center gap-3 px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-zinc-300 dark:hover:bg-zinc-800 dark:hover:text-zinc-200 cursor-pointer'
+							className='w-full flex flex-row items-center gap-3 px-4 py-2 cursor-pointer text-sm text-gray-700 hover:bg-gray-100 dark:text-zinc-400 dark:hover:text-zinc-200 dark:hover:bg-linear-to-r dark:hover:from-sky-700 dark:hover:to-fuchsia-900'
 							onClick={() => handleLogout()}
 						>
 							<Power size={16} />

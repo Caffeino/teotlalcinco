@@ -1,70 +1,28 @@
-import { Power } from 'lucide-react';
-import { useNavigate } from 'react-router-dom';
 import { SIDE_ADMIN_ROUTES } from '../../../constants/sideRoutes';
-import { useAuth } from '../../../lib/hooks/useAuth';
-import CharAvatar from '../../cards/CharAvatar';
+import { useTheme } from '../../../lib/hooks/useTheme';
 
-const AdmSidebar = ({ activeMenu }: { activeMenu?: string }) => {
-	const { auth, isAuthenticated, authLogout } = useAuth();
-
-	const navigate = useNavigate();
-
-	const handleLogout = () => {
-		authLogout();
-		navigate('/');
-	};
-
-	const name: string = auth?.profile?.first_name
-		? auth?.profile?.first_name
-		: auth?.username
-			? auth?.username
-			: '';
+const AdmSidebar = () => {
+	const { isOpenSidebar } = useTheme();
 
 	return (
-		<div className='w-65 h-[calc(100vh)] bg-white border-r border-gray-200 dark:bg-zinc-800 dark:border-0 p-5 sticky top-[61px] z-20'>
-			{isAuthenticated && (
-				<div className='flex flex-col items-center justify-center gap-1'>
-					<CharAvatar
-						name={name}
-						width='w-15'
-						height='h-15'
-						style='text-zinc-500 dark:text-gray-900 text-xl bg-slate-200 dark:bg-gray-500'
-					/>
-					<div>
-						<h5 className='text-slate-500 dark:text-slate-300 text-center leading-6 mt-1'>
-							{auth?.profile?.first_name || ''}
-						</h5>
-						<p className='text-xs font-medium text-slate-500 dark:text-slate-400 text-center'>
-							{auth?.username ? `@${auth.username}` : ''}
-						</p>
-					</div>
+		<aside
+			className={`fixed top-0 left-0 z-40 w-64 h-screen pt-20 transition-transform bg-white border-r border-gray-200 ${!isOpenSidebar && '-translate-x-full'} sm:translate-x-0 dark:bg-zinc-800 dark:border-[#2d2d35]`}
+			aria-label='Sidebar'
+		>
+			<div className='h-full px-3 pb-4 overflow-y-auto bg-white dark:bg-linear-to-t dark:from-zinc-900 dark:to-zinc-800'>
+				<div className='space-y-2 font-medium'>
+					{SIDE_ADMIN_ROUTES.map((item, index) => (
+						<button
+							key={index}
+							className='w-full flex items-center p-2 group cursor-pointer rounded-lg text-gray-900 hover:bg-gray-100 dark:text-zinc-400 dark:hover:text-zinc-200 dark:hover:bg-linear-to-r dark:hover:from-sky-700 dark:hover:to-fuchsia-900'
+						>
+							<item.icon className='w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white' />
+							<span className='ms-3'>{item.label}</span>
+						</button>
+					))}
 				</div>
-			)}
-
-			<div className='py-4'>
-				{SIDE_ADMIN_ROUTES.map((item, index) => (
-					<button
-						key={`menu_${index}`}
-						className={`w-full flex items-center gap-4 text-[15px] ${
-							activeMenu == item.label
-								? 'text-white bg-linear-to-r from-sky-500 to-cyan-400'
-								: 'dark:text-slate-400 dark:hover:bg-linear-to-r dark:hover:from-zinc-800 dark:to-zinc-700'
-						} hover:text-primary py-3 px-6 rounded-lg mb-3 cursor-pointer`}
-						onClick={() => {}}
-					>
-						<item.icon className='text-xl' />
-						{item.label}
-					</button>
-				))}
-				<button
-					className='dark:text-slate-400 w-full flex items-center gap-4 text-[15px] hover:text-primary py-3 px-6 rounded-lg mb-3 cursor-pointer'
-					onClick={() => handleLogout()}
-				>
-					<Power className='text-xl' />
-					Logout
-				</button>
 			</div>
-		</div>
+		</aside>
 	);
 };
 

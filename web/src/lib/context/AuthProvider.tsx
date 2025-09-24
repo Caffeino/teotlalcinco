@@ -13,7 +13,6 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
 	const [loading, setLoading] = useState(true);
 
 	useEffect(() => {
-		console.log('user', auth);
 		if (auth.id) return;
 
 		const authToken = localStorage.getItem('token');
@@ -27,8 +26,6 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
 					throw new Error(
 						'Error al iniciar sesión, inténte de nuevo más tarde.'
 					);
-
-				console.log('user fetch', user);
 
 				setAuth(user);
 			} catch (error) {
