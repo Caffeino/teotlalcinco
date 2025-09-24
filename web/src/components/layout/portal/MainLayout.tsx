@@ -1,11 +1,17 @@
-import { Outlet } from 'react-router-dom';
+import type { ReactNode } from 'react';
 import { useLoginModal } from '../../../lib/hooks/useLoginModal';
 import SignIn from '../../forms/auth/SignIn';
 import SignUp from '../../forms/auth/SignUp';
 import Modal from '../../modal/Modal';
 import Navbar from './Navbar';
 
-const MainLayout = () => {
+const MainLayout = ({
+	state,
+	children
+}: {
+	state: string;
+	children: ReactNode;
+}) => {
 	const {
 		isLoginForm,
 		authModalStatus,
@@ -17,8 +23,8 @@ const MainLayout = () => {
 
 	return (
 		<>
-			<Navbar openAuthForm={openAuthForm} />
-			<Outlet />
+			<Navbar state={state} openAuthForm={openAuthForm} />
+			{children}
 			<Modal open={authModalStatus} onClose={closeAuthForm} hideHeader>
 				{isLoginForm ? (
 					<SignIn

@@ -7,14 +7,14 @@ const publicRoutes: RouteType[] = [
 	{
 		index: true,
 		path: '/',
-		element: <HomePage />,
+		element: <HomePage state='home' />,
 		state: 'home',
 		displayText: 'Inicio'
 	},
 	{
 		path: '/blog',
-		element: <BlogPage />,
-		state: 'home',
+		element: <BlogPage state='blog' />,
+		state: 'blog',
 		displayText: 'Blog'
 	}
 ];

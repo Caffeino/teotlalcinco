@@ -5,7 +5,7 @@ import { useAuth } from '../../lib/hooks/useAuth';
 import { useOnClickOutside } from '../../lib/hooks/useOnClickOutside';
 import CharAvatar from './CharAvatar';
 
-const UserProfile = () => {
+const UserProfile = ({ mainNavbar = false }: { mainNavbar?: boolean }) => {
 	const { auth, authLogout } = useAuth();
 	const [showUserMenu, setShowUserMenu] = useState(false);
 
@@ -29,8 +29,9 @@ const UserProfile = () => {
 			<div className='inline-block'>
 				<button
 					type='button'
-					className='flex text-sm bg-slate-400 rounded-full focus:ring-4 focus:ring-gray-400 dark:focus:ring-zinc-700'
+					className='flex text-sm bg-slate-200 rounded-full focus:ring-4 focus:ring-gray-400 dark:focus:ring-zinc-700 cursor-pointer'
 					onMouseEnter={() => setShowUserMenu(true)}
+					onClick={() => navigate('/admin/dashboard')}
 				>
 					<span className='sr-only'>Open user menu</span>
 					<CharAvatar
@@ -44,7 +45,7 @@ const UserProfile = () => {
 			{showUserMenu && (
 				<div
 					ref={ref}
-					className='min-w-48 absolute right-2 top-14 text-base list-none bg-white divide-y divide-gray-100 rounded-lg shadow-md border border-gray-200 dark:border-[#2d2d35] dark:divide-zinc-600 dark:bg-linear-to-t dark:from-zinc-800 dark:to-zinc-700'
+					className={`min-w-48 absolute ${mainNavbar ? '-mx-40' : 'right-2'} top-14 text-base list-none bg-white divide-y divide-gray-100 rounded-lg shadow-md border border-gray-200 dark:border-[#2d2d35] dark:divide-zinc-600 dark:bg-linear-to-t dark:from-zinc-800 dark:to-zinc-700`}
 				>
 					<div className='px-4 py-3' role='none'>
 						<p className='text-sm text-slate-600 dark:text-white' role='none'>
