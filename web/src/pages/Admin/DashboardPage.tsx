@@ -1,5 +1,7 @@
-const DashboardPage = () => {
-	return <div className='text-gray-400 py-8'>DashboardPage</div>;
+import AdmLayout from '../../components/layout/admin/AdmLayout';
+
+const DashboardPage = ({ state }: { state: string }) => {
+	return <AdmLayout state={state}>DashboardPage</AdmLayout>;
 };
 
 export default DashboardPage;
