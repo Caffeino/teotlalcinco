@@ -1,17 +1,22 @@
-import { CircleUserRound, Power } from 'lucide-react';
+import { LayoutDashboard, Power } from 'lucide-react';
 import { useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../lib/hooks/useAuth';
 import { useOnClickOutside } from '../../lib/hooks/useOnClickOutside';
+import { useTheme } from '../../lib/hooks/useTheme';
+import ThemeToggleButton from '../buttons/ThemeToggleButton';
 import CharAvatar from './CharAvatar';
 
 const UserProfile = ({ mainNavbar = false }: { mainNavbar?: boolean }) => {
-	const { auth, authLogout } = useAuth();
 	const [showUserMenu, setShowUserMenu] = useState(false);
+	const { auth, authLogout } = useAuth();
+	const { theme, toggleTheme } = useTheme();
 
 	const navigate = useNavigate();
 	const ref = useRef<HTMLDivElement>(null);
 	useOnClickOutside(ref, () => setShowUserMenu(false));
+
+	const handleClick = (route: string) => navigate(route);
 
 	const handleLogout = () => {
 		authLogout();
@@ -31,7 +36,6 @@ const UserProfile = ({ mainNavbar = false }: { mainNavbar?: boolean }) => {
 					type='button'
 					className='flex text-sm bg-slate-200 rounded-full focus:ring-4 focus:ring-gray-400 dark:focus:ring-zinc-700 cursor-pointer'
 					onMouseEnter={() => setShowUserMenu(true)}
-					onClick={() => navigate('/admin/dashboard')}
 				>
 					<span className='sr-only'>Open user menu</span>
 					<CharAvatar
@@ -45,7 +49,7 @@ const UserProfile = ({ mainNavbar = false }: { mainNavbar?: boolean }) => {
 			{showUserMenu && (
 				<div
 					ref={ref}
-					className={`min-w-48 absolute ${mainNavbar ? '-mx-40' : 'right-2'} top-14 text-base list-none bg-white divide-y divide-gray-100 rounded-lg shadow-md border border-gray-200 dark:border-[#2d2d35] dark:divide-zinc-600 dark:bg-linear-to-t dark:from-zinc-800 dark:to-zinc-700`}
+					className={`min-w-48 absolute ${mainNavbar ? '-mx-36' : 'right-2'} top-14 text-base list-none bg-white divide-y divide-gray-100 rounded-lg shadow-md border border-gray-200 dark:border-[#2d2d35] dark:divide-zinc-600 dark:bg-linear-to-t dark:from-zinc-800 dark:to-zinc-700`}
 				>
 					<div className='px-4 py-3' role='none'>
 						<p className='text-sm text-slate-600 dark:text-white' role='none'>
@@ -61,11 +65,19 @@ const UserProfile = ({ mainNavbar = false }: { mainNavbar?: boolean }) => {
 					<div className='py-1'>
 						<button
 							className='w-full flex flex-row items-center gap-3 px-4 py-2 cursor-pointer text-sm text-slate-600 hover:text-white hover:bg-linear-to-r hover:from-sky-500 hover:to-fuchsia-500 dark:text-zinc-400 dark:hover:text-zinc-200 dark:hover:bg-linear-to-r dark:hover:from-sky-700 dark:hover:to-fuchsia-900'
-							role='menuitem'
+							onClick={() => handleClick('/admin/dashboard')}
 						>
-							<CircleUserRound size={16} />
-							Perfil
+							<LayoutDashboard size={16} />
+							Dashboard
 						</button>
+						<button
+							className='w-full flex flex-row items-center gap-3 px-4 py-2 cursor-pointer text-sm text-slate-600 hover:text-white hover:bg-linear-to-r hover:from-sky-500 hover:to-fuchsia-500 dark:text-zinc-400 dark:hover:text-zinc-200 dark:hover:bg-linear-to-r dark:hover:from-sky-700 dark:hover:to-fuchsia-900'
+							onClick={toggleTheme}
+						>
+							<ThemeToggleButton checked={theme === 'dark'} />
+						</button>
+					</div>
+					<div className='py-1'>
 						<button
 							className='w-full flex flex-row items-center gap-3 px-4 py-2 cursor-pointer text-sm text-slate-600 hover:text-white hover:bg-linear-to-r hover:from-sky-500 hover:to-fuchsia-500 dark:text-zinc-400 dark:hover:text-zinc-200 dark:hover:bg-linear-to-r dark:hover:from-sky-700 dark:hover:to-fuchsia-900'
 							onClick={() => handleLogout()}

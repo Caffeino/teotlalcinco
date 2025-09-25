@@ -1,5 +1,6 @@
 import {
 	CalendarCheck,
+	CircleUser,
 	CreditCard,
 	GalleryVerticalEnd,
 	LayoutDashboard,
@@ -25,27 +26,34 @@ export const SIDE_ADMIN_ROUTES: SideAdminRoutesType[] = [
 	},
 	{
 		id: '02',
+		label: 'Perfil',
+		state: 'Perfil',
+		icon: CircleUser,
+		path: '/admin/perfil'
+	},
+	{
+		id: '03',
 		label: 'Blog Posts',
 		state: 'blog-posts',
 		icon: GalleryVerticalEnd,
 		path: '/admin/posts'
 	},
 	{
-		id: '03',
+		id: '04',
 		label: 'Eventos',
 		state: 'events',
 		icon: CalendarCheck,
 		path: '/admin/events'
 	},
 	{
-		id: '04',
+		id: '05',
 		label: 'Commentarios',
 		state: 'comments',
 		icon: MessagesSquare,
 		path: '/admin/comments'
 	},
 	{
-		id: '04',
+		id: '06',
 		label: 'Pagos',
 		state: 'payments',
 		icon: CreditCard,

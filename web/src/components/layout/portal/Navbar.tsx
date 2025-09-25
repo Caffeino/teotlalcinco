@@ -17,7 +17,7 @@ const Navbar = ({ state, openAuthForm }: NavbarProps) => {
 	const { isOpenSidebar, toggleSidebar } = useTheme();
 
 	return (
-		<nav className='bg-white border-b border-gray-200 dark:bg-gray-900'>
+		<nav className='bg-white border-b border-gray-200 dark:bg-zinc-800 dark:border-[#2d2d35]'>
 			<div className='max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-3'>
 				<a href='/' className='flex items-center space-x-3 rtl:space-x-reverse'>
 					<img src={OLogo} className='h-6 me-1' alt='Teotlal5 Logo' />
@@ -50,7 +50,7 @@ const Navbar = ({ state, openAuthForm }: NavbarProps) => {
 				<div
 					className={`items-center justify-between ${!isOpenSidebar && 'hidden'} w-full md:flex md:w-auto md:order-1`}
 				>
-					<ul className='flex flex-col font-semibold p-3 md:p-0 mt-4 border border-gray-100 rounded-lg bg-gray-50 md:space-x-8 rtl:space-x-reverse md:flex-row md:mt-0 md:border-0 md:bg-white dark:bg-gray-800 md:dark:bg-gray-900 dark:border-gray-700'>
+					<ul className='flex flex-col font-semibold p-3 md:p-0 mt-4 border border-gray-100 rounded-lg md:space-x-8 rtl:space-x-reverse md:flex-row md:mt-0 md:border-0'>
 						{appRoutes.publicRoutes &&
 							appRoutes.publicRoutes.map((route, iKey) => {
 								return (
