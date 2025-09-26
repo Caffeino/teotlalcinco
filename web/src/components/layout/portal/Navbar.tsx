@@ -29,7 +29,7 @@ const Navbar = ({ state, openAuthForm }: NavbarProps) => {
 					{!isAuthenticated ? (
 						<button
 							type='button'
-							className='flex items-center justify-between text-white bg-linear-to-r from-sky-500 to-sky-600 hover:bg-linear-to-r hover:from-sky-500 hover:to-fuchsia-400 rounded-full text-sm px-4 py-2 cursor-pointer'
+							className='flex items-center justify-between gap-2 text-white bg-linear-to-r from-sky-500 to-sky-600 hover:bg-linear-to-r hover:from-sky-500 hover:to-fuchsia-400 rounded-full text-sm px-4 py-4 h-8 cursor-pointer'
 							onClick={openAuthForm}
 						>
 							Iniciar
@@ -57,7 +57,7 @@ const Navbar = ({ state, openAuthForm }: NavbarProps) => {
 									<li key={iKey}>
 										<Link
 											to={route.path!}
-											className={`block py-2 px-3 md:p-0 ${state == route.state ? 'text-primary' : 'text-slate-700'} rounded-sm hover:bg-gray-100 md:hover:bg-transparent md:hover:text-primary md:dark:hover:text-blue-500 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700`}
+											className={`block py-2 px-3 md:p-0 ${state == route.state ? 'text-primary' : 'text-slate-700 dark:text-white'} rounded-sm hover:bg-gray-100 md:hover:bg-transparent md:hover:text-primary md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700`}
 										>
 											{route.displayText}
 										</Link>

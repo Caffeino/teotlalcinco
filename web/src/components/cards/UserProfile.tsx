@@ -49,7 +49,7 @@ const UserProfile = ({ mainNavbar = false }: { mainNavbar?: boolean }) => {
 			{showUserMenu && (
 				<div
 					ref={ref}
-					className={`min-w-48 absolute ${mainNavbar ? '-mx-36' : 'right-2'} top-14 text-base list-none bg-white divide-y divide-gray-100 rounded-lg shadow-md border border-gray-200 dark:border-[#2d2d35] dark:divide-zinc-600 dark:bg-linear-to-t dark:from-zinc-800 dark:to-zinc-700`}
+					className={`z-50 min-w-48 absolute ${mainNavbar ? '-mx-36' : 'right-2'} top-14 text-base list-none bg-white/95 divide-y divide-gray-100 rounded-lg shadow-md border border-gray-200 dark:border-[#2d2d35] dark:divide-zinc-600 dark:bg-linear-to-t dark:from-zinc-800 dark:to-zinc-700`}
 				>
 					<div className='px-4 py-3' role='none'>
 						<p className='text-sm text-slate-600 dark:text-white' role='none'>

@@ -18,7 +18,7 @@ const Modal = ({
 }: ModalProps) => {
 	if (!open) return;
 	return (
-		<div className='fixed inset-0 z-50 flex justify-center items-center w-full h-full bg-black/40'>
+		<div className='fixed inset-0 z-50 flex justify-center items-center w-full h-full bg-black/35'>
 			<div
 				className={`relative flex flex-col bg-white dark:bg-linear-to-t dark:from-zinc-900 dark:to-zinc-700 shadow-lg rounded-lg overflow-hidden`}
 			>
