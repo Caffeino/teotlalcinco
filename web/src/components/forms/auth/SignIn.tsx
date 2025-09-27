@@ -18,13 +18,7 @@ const initialValues: SignInForm = {
 	password: ''
 };
 
-const SignIn = ({
-	openRegisterForm,
-	onCloseAuthForm
-}: {
-	openRegisterForm: () => void;
-	onCloseAuthForm: () => void;
-}) => {
+const SignIn = ({ onCloseAuthForm }: { onCloseAuthForm: () => void }) => {
 	const { authLogin } = useAuth();
 	const navigate = useNavigate();
 
@@ -93,7 +87,10 @@ const SignIn = ({
 						<button
 							type='button'
 							className='font-semibold text-primary dark:text-sky-500 underline cursor-pointer'
-							onClick={openRegisterForm}
+							onClick={() => {
+								navigate('/bienvenido', { replace: true });
+								onCloseAuthForm();
+							}}
 						>
 							Crear una
 						</button>

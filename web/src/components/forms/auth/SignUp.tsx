@@ -2,13 +2,7 @@ import REGISTER_LOGO from '../../../assets/register-logo.svg';
 import GradientButton from '../../buttons/GradientButton';
 import InputGroup from '../../inputs/InputGroup';
 
-const SignUp = ({
-	openLoginForm,
-	onCloseAuthForm
-}: {
-	openLoginForm: () => void;
-	onCloseAuthForm: () => void;
-}) => {
+const SignUp = () => {
 	return (
 		<div className='flex items-center'>
 			<div className='hidden md:block'>
@@ -23,7 +17,7 @@ const SignUp = ({
 				</p>
 				<form
 					onSubmit={() => {
-						onCloseAuthForm();
+						console.log('processing...');
 					}}
 				>
 					<InputGroup
@@ -54,16 +48,6 @@ const SignUp = ({
 						placeholder='Min 8 caracteres'
 					/>
 					<GradientButton type='submit'>Crear</GradientButton>
-					<p className='text-[0.813rem] text-slate-800 mt-3 dark:text-slate-300 flex gap-2'>
-						¿Ya tienes una cuenta?{' '}
-						<button
-							type='button'
-							className='font-semibold text-primary dark:text-sky-500 underline cursor-pointer'
-							onClick={openLoginForm}
-						>
-							Inicia sesi&oacute;n
-						</button>
-					</p>
 				</form>
 			</div>
 		</div>

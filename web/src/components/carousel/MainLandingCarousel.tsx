@@ -71,13 +71,13 @@ const MainLandingCarousel = () => {
 			>
 				{TEMPORAL_BANNERS.map(banner => (
 					<div key={banner.id} className='w-full flex-shrink-0'>
-						<div className='relative h-56 md:h-80'>
+						<div className='relative h-56 md:h-96'>
 							<img
 								src={banner.img}
 								alt={banner.name}
 								className='w-full h-full object-cover'
 							/>
-							<div className='w-full absolute bg-linear-to-t from-black/80 to-sky-950/75 flex items-center justify-center bottom-0'>
+							<div className='w-full absolute bg-linear-to-t from-black/60 to-sky-950/65 flex items-center justify-center bottom-0'>
 								<div className='grid grid-cols-3 w-md text-center'>
 									<div className='col-span-4 flex items-center justify-center h-10'>
 										<button className='flex items-center gap-2 justify-between text-white bg-linear-to-r from-sky-500 to-sky-600 hover:bg-linear-to-r hover:from-sky-500 hover:to-fuchsia-400 rounded-full text-sm px-4 py-4 h-8 cursor-pointer'>
@@ -117,8 +117,8 @@ const MainLandingCarousel = () => {
 				className='z-10 absolute top-0 start-0 flex items-center justify-center h-full px-4 cursor-pointer group focus:outline-none'
 				onClick={prevSlide}
 			>
-				<span className='inline-flex items-center justify-center w-10 h-10 rounded-full bg-white/30 dark:bg-gray-800/30 group-hover:bg-white/50 dark:group-hover:bg-gray-800/60 group-focus:ring-4 group-focus:ring-white dark:group-focus:ring-gray-800/70 group-focus:outline-none'>
-					<ChevronLeft />
+				<span className='inline-flex items-center justify-center w-18 h-18 rounded-full bg-white/30 dark:bg-gray-800/30 group-hover:bg-white/50 dark:group-hover:bg-gray-800/60 group-focus:ring-4 group-focus:ring-white dark:group-focus:ring-gray-800/70 group-focus:outline-none'>
+					<ChevronLeft size={36} />
 					<span className='sr-only'>Previous</span>
 				</span>
 			</button>
@@ -127,8 +127,8 @@ const MainLandingCarousel = () => {
 				className='z-10 absolute top-0 end-0 flex items-center justify-center h-full px-4 cursor-pointer group focus:outline-none'
 				onClick={nextSlide}
 			>
-				<span className='inline-flex items-center justify-center w-10 h-10 rounded-full bg-white/30 dark:bg-gray-800/30 group-hover:bg-white/50 dark:group-hover:bg-gray-800/60 group-focus:ring-4 group-focus:ring-white dark:group-focus:ring-gray-800/70 group-focus:outline-none'>
-					<ChevronRight />
+				<span className='inline-flex items-center justify-center w-18 h-18 rounded-full bg-white/30 dark:bg-gray-800/30 group-hover:bg-white/50 dark:group-hover:bg-gray-800/60 group-focus:ring-4 group-focus:ring-white dark:group-focus:ring-gray-800/70 group-focus:outline-none'>
+					<ChevronRight size={36} />
 					<span className='sr-only'>Next</span>
 				</span>
 			</button>

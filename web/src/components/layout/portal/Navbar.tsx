@@ -7,7 +7,7 @@ import appRoutes from '../../../routes/appRoutes';
 import UserProfile from '../../cards/UserProfile';
 
 interface NavbarProps {
-	state: string;
+	state?: string;
 	openAuthForm: () => void;
 }
 

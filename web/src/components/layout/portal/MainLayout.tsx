@@ -1,7 +1,5 @@
-import type { ReactNode } from 'react';
-import { useLoginModal } from '../../../lib/hooks/useLoginModal';
+import { useState, type ReactNode } from 'react';
 import SignIn from '../../forms/auth/SignIn';
-import SignUp from '../../forms/auth/SignUp';
 import Modal from '../../modal/Modal';
 import Navbar from './Navbar';
 
@@ -9,34 +7,21 @@ const MainLayout = ({
 	state,
 	children
 }: {
-	state: string;
+	state?: string;
 	children: ReactNode;
 }) => {
-	const {
-		isLoginForm,
-		authModalStatus,
-		openAuthForm,
-		closeAuthForm,
-		openRegisterForm,
-		openLoginForm
-	} = useLoginModal();
+	const [isOpenedAuthForm, setIsOpenedAuthForm] = useState(false);
 
 	return (
 		<>
-			<Navbar state={state} openAuthForm={openAuthForm} />
+			<Navbar state={state} openAuthForm={() => setIsOpenedAuthForm(true)} />
 			{children}
-			<Modal open={authModalStatus} onClose={closeAuthForm} hideHeader>
-				{isLoginForm ? (
-					<SignIn
-						openRegisterForm={openRegisterForm}
-						onCloseAuthForm={closeAuthForm}
-					/>
-				) : (
-					<SignUp
-						openLoginForm={openLoginForm}
-						onCloseAuthForm={closeAuthForm}
-					/>
-				)}
+			<Modal
+				open={isOpenedAuthForm}
+				onClose={() => setIsOpenedAuthForm(false)}
+				hideHeader
+			>
+				<SignIn onCloseAuthForm={() => setIsOpenedAuthForm(false)} />
 			</Modal>
 		</>
 	);
