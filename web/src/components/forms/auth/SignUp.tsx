@@ -1,4 +1,3 @@
-import REGISTER_LOGO from '../../../assets/register-logo.svg';
 import { register } from '../../../lib/api/auth';
 import { useForm } from '../../../lib/hooks/useForm';
 import {
@@ -6,9 +5,11 @@ import {
 	validatePassword,
 	validateUsername
 } from '../../../lib/validations/user';
+import type { AuthUserType } from '../../../types';
 import GradientButton from '../../buttons/GradientButton';
 import ErrorMessage from '../../common/ErrorMessage';
 import InputGroup from '../../inputs/InputGroup';
+import Welcome from '../../svg/Welcome';
 
 interface RegisterFormData {
 	username: string;
@@ -22,16 +23,22 @@ const initialValues: RegisterFormData = {
 	password: ''
 };
 
-const SignUp = ({ displayTokenForm }: { displayTokenForm: () => void }) => {
+const SignUp = ({
+	showVerifyForm,
+	handleTemporalUser
+}: {
+	showVerifyForm: () => void;
+	handleTemporalUser: (user: Partial<AuthUserType>) => void;
+}) => {
 	const onSubmit = async ({ username, email, password }: RegisterFormData) => {
 		const user = await register(username, email, password);
 
 		if (!user)
 			throw new Error('Error al iniciar sesión, inténte de nuevo más tarde.');
 
-		console.log('user registered', user);
+		handleTemporalUser(user);
 
-		displayTokenForm();
+		showVerifyForm();
 	};
 
 	const {
@@ -48,15 +55,15 @@ const SignUp = ({ displayTokenForm }: { displayTokenForm: () => void }) => {
 	});
 
 	return (
-		<div className='flex items-center'>
-			<div className='hidden md:block'>
-				<img src={REGISTER_LOGO} alt='Login' className='h-60 w-80 p-2' />
+		<div className='max-w-lg'>
+			<div className='hidden md:flex md:items-center md:justify-center'>
+				<Welcome width={250} />
 			</div>
 			<div className='w-[90vw] lg:w-[22vw] md:w-[33vw] p-7 flex flex-col justify-center'>
-				<h3 className='text-lg font-semibold text-slate-800 dark:text-slate-300'>
+				<h3 className='text-lg text-center font-semibold text-slate-800 dark:text-slate-300'>
 					&Uacute;nete a nuetra comunidad!
 				</h3>
-				<p className='text-sm text-slate-700 mt-[2px] mb-4 dark:text-slate-400'>
+				<p className='text-sm text-center text-slate-700 mt-[2px] mb-4 dark:text-slate-400'>
 					Crea una nueva cuenta con los siguientes datos.
 				</p>
 				{error && <ErrorMessage error={error} />}

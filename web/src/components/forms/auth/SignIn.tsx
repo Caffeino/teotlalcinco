@@ -31,8 +31,7 @@ const SignIn = ({ onCloseAuthForm }: { onCloseAuthForm: () => void }) => {
 		onCloseAuthForm();
 
 		if (!user.is_active) {
-			// TODO... integrate page
-			navigate('/activate', { replace: true });
+			navigate('/bienvenido/verify', { replace: true });
 			return;
 		}
 

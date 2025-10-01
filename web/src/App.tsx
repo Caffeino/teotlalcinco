@@ -10,7 +10,7 @@ function App() {
 			<BrowserRouter>
 				<Routes>
 					{publicRoutes}
-					<Route path='/bienvenido' element={<RegisterPage />} />
+					<Route path='/bienvenido/:token?' element={<RegisterPage />} />
 					<Route element={<ProtectedRoute />}>{privateRoutes}</Route>
 				</Routes>
 			</BrowserRouter>
