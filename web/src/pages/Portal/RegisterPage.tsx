@@ -1,8 +1,9 @@
 import { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { Navigate, useParams } from 'react-router-dom';
 import AccountConfirm from '../../components/forms/auth/AccountConfirm';
 import SignUp from '../../components/forms/auth/SignUp';
 import MainLayout from '../../components/layout/portal/MainLayout';
+import { useAuth } from '../../lib/hooks/useAuth';
 import type { AuthUserType } from '../../types';
 
 const initialValue: Partial<AuthUserType> = {
@@ -10,6 +11,7 @@ const initialValue: Partial<AuthUserType> = {
 };
 
 const RegisterPage = () => {
+	const { isAuthenticated } = useAuth();
 	const { token = '' } = useParams();
 	const [verifyForm, setVerifyForm] = useState(false);
 	const [temporalUser, setTemporalUser] =
@@ -24,7 +26,9 @@ const RegisterPage = () => {
 	const handleTemporalUser = (user: Partial<AuthUserType>) =>
 		setTemporalUser(user);
 
-	return (
+	return isAuthenticated ? (
+		<Navigate to='/' replace />
+	) : (
 		<MainLayout>
 			<div className='py-1 sm:m-auto max-w-screen-md'>
 				<div className='p-10 rounded-lg'>
