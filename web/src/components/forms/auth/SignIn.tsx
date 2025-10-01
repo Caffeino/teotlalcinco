@@ -22,8 +22,8 @@ const SignIn = ({ onCloseAuthForm }: { onCloseAuthForm: () => void }) => {
 	const { authLogin } = useAuth();
 	const navigate = useNavigate();
 
-	const onSubmit = async (values: SignInForm) => {
-		const user = await login(values.email, values.password);
+	const onSubmit = async ({ email, password }: SignInForm) => {
+		const user = await login(email, password);
 
 		if (!user)
 			throw new Error('Error al iniciar sesión, inténte de nuevo más tarde.');
