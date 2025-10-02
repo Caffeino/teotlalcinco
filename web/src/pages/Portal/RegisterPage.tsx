@@ -3,6 +3,7 @@ import { Navigate, useParams } from 'react-router-dom';
 import AccountConfirm from '../../components/forms/auth/AccountConfirm';
 import SignUp from '../../components/forms/auth/SignUp';
 import MainLayout from '../../components/layout/portal/MainLayout';
+import { activateAccount } from '../../lib/api/auth';
 import { useAuth } from '../../lib/hooks/useAuth';
 import type { AuthUserType } from '../../types';
 
@@ -20,7 +21,18 @@ const RegisterPage = () => {
 	useEffect(() => {
 		if (!token) return;
 
-		setVerifyForm(true);
+		if (token === 'verify') return setVerifyForm(true);
+
+		const activateAccountHandler = async () => {
+			try {
+				const activation = activateAccount(token);
+				console.log('actiovation result', activation);
+			} catch (error) {
+				console.log(error);
+			}
+		};
+
+		activateAccountHandler();
 	}, [token]);
 
 	const handleTemporalUser = (user: Partial<AuthUserType>) =>

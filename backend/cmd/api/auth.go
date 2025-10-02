@@ -188,7 +188,7 @@ func (app *application) registerUserHandler(w http.ResponseWriter, r *http.Reque
 	}
 }
 
-func (app *application) activeUserHandler(w http.ResponseWriter, r *http.Request) {
+func (app *application) activateUserHandler(w http.ResponseWriter, r *http.Request) {
 	token := chi.URLParam(r, "token")
 
 	if err := app.store.Users.ActivateToken(r.Context(), token); err != nil {

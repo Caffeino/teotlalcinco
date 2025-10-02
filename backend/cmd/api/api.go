@@ -89,7 +89,7 @@ func (app *application) mount() http.Handler {
 		r.Route("/auth", func(r chi.Router) {
 			r.Post("/login", app.loginUserHandler)
 			r.Post("/register", app.registerUserHandler)
-			r.Put("/active/{token}", app.activeUserHandler)
+			r.Put("/activate/{token}", app.activateUserHandler)
 		})
 
 		r.Route("/users", func(r chi.Router) {

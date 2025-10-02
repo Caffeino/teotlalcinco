@@ -21,6 +21,19 @@ export const register = async (
 	}
 };
 
+export const activateAccount = async (token: string) => {
+	try {
+		const res = await apiRequest(`${API_BASE_URL}/v1/auth/activate/${token}`, {
+			method: 'PUT'
+		});
+
+		if (!res.ok) return null;
+	} catch (err) {
+		console.log('Activation error', err);
+		return null;
+	}
+};
+
 export const login = async (
 	email: string,
 	password: string
