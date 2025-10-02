@@ -1,6 +1,7 @@
 import { useState, type ReactNode } from 'react';
 import SignIn from '../../forms/auth/SignIn';
 import Modal from '../../modal/Modal';
+import Footer from './Footer';
 import Navbar from './Navbar';
 
 const MainLayout = ({
@@ -23,6 +24,7 @@ const MainLayout = ({
 			>
 				<SignIn onCloseAuthForm={() => setIsOpenedAuthForm(false)} />
 			</Modal>
+			<Footer />
 		</>
 	);
 };
