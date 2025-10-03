@@ -24,11 +24,11 @@ const initialValues: RegisterFormData = {
 };
 
 const SignUp = ({
-	showVerifyForm,
-	handleTemporalUser
+	showActivationForm,
+	handleRegisteredUser
 }: {
-	showVerifyForm: () => void;
-	handleTemporalUser: (user: Partial<AuthUserType>) => void;
+	showActivationForm: () => void;
+	handleRegisteredUser: (user: Partial<AuthUserType>) => void;
 }) => {
 	const onSubmit = async ({ username, email, password }: RegisterFormData) => {
 		const user = await register(username, email, password);
@@ -36,9 +36,10 @@ const SignUp = ({
 		if (!user)
 			throw new Error('Error al iniciar sesión, inténte de nuevo más tarde.');
 
-		handleTemporalUser(user);
+		console.log('user', user);
 
-		showVerifyForm();
+		showActivationForm();
+		handleRegisteredUser(user);
 	};
 
 	const {

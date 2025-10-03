@@ -31,7 +31,10 @@ const SignIn = ({ onCloseAuthForm }: { onCloseAuthForm: () => void }) => {
 		onCloseAuthForm();
 
 		if (!user.is_active) {
-			navigate('/bienvenido/verify', { replace: true });
+			navigate('/bienvenido/verify', {
+				replace: true,
+				state: { email }
+			});
 			return;
 		}
 

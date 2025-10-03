@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Navigate, useParams } from 'react-router-dom';
-import AccountConfirm from '../../components/forms/auth/AccountConfirm';
+import Activation from '../../components/forms/auth/Activation';
 import SignUp from '../../components/forms/auth/SignUp';
 import MainLayout from '../../components/layout/portal/MainLayout';
 import { activateAccount } from '../../lib/api/auth';
@@ -12,31 +12,31 @@ const initialValue: Partial<AuthUserType> = {
 };
 
 const RegisterPage = () => {
+	const [responseCode, setResponseCode] = useState(0);
+	const [activationForm, setActivationForm] = useState(false);
+	const [registeredUser, setRegisteredUser] =
+		useState<Partial<AuthUserType>>(initialValue);
+
 	const { isAuthenticated } = useAuth();
 	const { token = '' } = useParams();
-	const [verifyForm, setVerifyForm] = useState(false);
-	const [temporalUser, setTemporalUser] =
-		useState<Partial<AuthUserType>>(initialValue);
 
 	useEffect(() => {
 		if (!token) return;
 
-		if (token === 'verify') return setVerifyForm(true);
+		setActivationForm(true);
 
-		const activateAccountHandler = async () => {
-			try {
-				const activation = activateAccount(token);
-				console.log('actiovation result', activation);
-			} catch (error) {
-				console.log(error);
-			}
+		if (token === 'verify') return;
+
+		const handleActivation = async () => {
+			const code = await activateAccount(token);
+			setResponseCode(code);
 		};
 
-		activateAccountHandler();
+		handleActivation();
 	}, [token]);
 
-	const handleTemporalUser = (user: Partial<AuthUserType>) =>
-		setTemporalUser(user);
+	const handleRegisteredUser = (user: Partial<AuthUserType>) =>
+		setRegisteredUser(user);
 
 	return isAuthenticated ? (
 		<Navigate to='/' replace />
@@ -46,13 +46,16 @@ const RegisterPage = () => {
 				<div className='p-10 rounded-lg'>
 					<div className='grid grid-cols-1 gap-4 mb-4'>
 						<div className='flex items-center justify-center rounded-sm w-full'>
-							{!verifyForm ? (
+							{!activationForm ? (
 								<SignUp
-									showVerifyForm={() => setVerifyForm(true)}
-									handleTemporalUser={handleTemporalUser}
+									showActivationForm={() => setActivationForm(true)}
+									handleRegisteredUser={handleRegisteredUser}
 								/>
 							) : (
-								<AccountConfirm email={temporalUser.email} />
+								<Activation
+									email={registeredUser.email}
+									responseCode={responseCode}
+								/>
 							)}
 						</div>
 					</div>
