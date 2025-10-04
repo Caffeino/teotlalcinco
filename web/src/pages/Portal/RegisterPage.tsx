@@ -3,7 +3,6 @@ import { Navigate, useParams } from 'react-router-dom';
 import Activation from '../../components/forms/auth/Activation';
 import SignUp from '../../components/forms/auth/SignUp';
 import MainLayout from '../../components/layout/portal/MainLayout';
-import { activateAccount } from '../../lib/api/auth';
 import { useAuth } from '../../lib/hooks/useAuth';
 import type { AuthUserType } from '../../types';
 
@@ -12,27 +11,17 @@ const initialValue: Partial<AuthUserType> = {
 };
 
 const RegisterPage = () => {
-	const [responseCode, setResponseCode] = useState(0);
 	const [activationForm, setActivationForm] = useState(false);
 	const [registeredUser, setRegisteredUser] =
 		useState<Partial<AuthUserType>>(initialValue);
 
-	const { isAuthenticated } = useAuth();
 	const { token = '' } = useParams();
+	const { isAuthenticated } = useAuth();
 
 	useEffect(() => {
 		if (!token) return;
 
 		setActivationForm(true);
-
-		if (token === 'verify') return;
-
-		const handleActivation = async () => {
-			const code = await activateAccount(token);
-			setResponseCode(code);
-		};
-
-		handleActivation();
 	}, [token]);
 
 	const handleRegisteredUser = (user: Partial<AuthUserType>) =>
@@ -52,10 +41,7 @@ const RegisterPage = () => {
 									handleRegisteredUser={handleRegisteredUser}
 								/>
 							) : (
-								<Activation
-									email={registeredUser.email}
-									responseCode={responseCode}
-								/>
+								<Activation email={registeredUser.email} />
 							)}
 						</div>
 					</div>

@@ -1,7 +1,8 @@
 const REGEX = {
 	USERNAME: /^[a-z0-9]+$/,
 	START_WITH_NUMBER: /^[0-9]/,
-	EMAIL: /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+	EMAIL: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
+	UUID: /^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$/
 };
 
 export const validateUsername = (username: string) => {
@@ -23,3 +24,5 @@ export const validatePassword = (password: string) => {
 	if (password.length < 8)
 		return 'La contraseña debe contener al menos 8 caracteres';
 };
+
+export const validUUID = (uuid: string) => REGEX.UUID.test(uuid);
