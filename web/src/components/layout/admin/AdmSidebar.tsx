@@ -1,8 +1,10 @@
+import { useNavigate } from 'react-router-dom';
 import { SIDE_ADMIN_ROUTES } from '../../../constants/sideRoutes';
 import { useTheme } from '../../../lib/hooks/useTheme';
 
 const AdmSidebar = ({ state }: { state: string }) => {
 	const { isOpenSidebar } = useTheme();
+	const navigate = useNavigate();
 
 	return (
 		<aside
@@ -19,6 +21,7 @@ const AdmSidebar = ({ state }: { state: string }) => {
 									? 'text-white bg-linear-to-r from-sky-500 to-sky-700 dark:text-zinc-200 dark:bg-linear-to-r dark:from-sky-700 dark:to-sky-900'
 									: 'text-slate-600 dark:text-zinc-400'
 							} dark:hover:text-zinc-200 dark:hover:bg-linear-to-r dark:hover:from-sky-700 dark:hover:to-fuchsia-900`}
+							onClick={() => navigate(item.path)}
 						>
 							<item.icon className='w-5 h-5' />
 							<span className='ms-3'>{item.label}</span>

@@ -27,7 +27,7 @@ export const SIDE_ADMIN_ROUTES: SideAdminRoutesType[] = [
 	{
 		id: '02',
 		label: 'Perfil',
-		state: 'Perfil',
+		state: 'profile',
 		icon: CircleUser,
 		path: '/admin/perfil'
 	},
