@@ -12,7 +12,11 @@ const AdmLayout = ({
 	return (
 		<>
 			<AdmNavbar />
-			{children}
+			<div className='p-4 sm:ml-64'>
+				<div className='p-4 border border-gray-200 border-dashed rounded-lg dark:border-gray-700 mt-14'>
+					{children}
+				</div>
+			</div>
 			<AdmSidebar state={state} />
 		</>
 	);
