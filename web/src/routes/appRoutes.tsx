@@ -1,5 +1,4 @@
 import DashboardPage from '../pages/Admin/DashboardPage';
-import ProfilePage from '../pages/Admin/ProfilePage';
 import BlogPage from '../pages/Portal/BlogPage';
 import EventPage from '../pages/Portal/EventPage';
 import HomePage from '../pages/Portal/HomePage';
@@ -35,12 +34,6 @@ const privateRoutes: RouteType[] = [
 		element: <DashboardPage state='dashboard' />,
 		state: 'dashboard',
 		displayText: 'Dashboard'
-	},
-	{
-		path: '/admin/perfil',
-		element: <ProfilePage state='profile' />,
-		state: 'profile',
-		displayText: 'Perfil'
 	}
 ];
 
