@@ -39,8 +39,11 @@ const SignIn = ({ onCloseAuthForm }: { onCloseAuthForm: () => void }) => {
 		}
 
 		authLogin(user);
-		// TODO... redirect based on role.
-		navigate('/admin/dashboard', { replace: true });
+
+		if (user.role.level === 1)
+			return navigate('/admin/dashboard', { replace: true });
+
+		return navigate(`/perfil/${user.username}`, { replace: true });
 	};
 
 	const {

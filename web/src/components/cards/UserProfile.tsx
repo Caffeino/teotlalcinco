@@ -1,6 +1,6 @@
 import { LayoutDashboard, Power } from 'lucide-react';
 import { useRef, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../../lib/hooks/useAuth';
 import { useOnClickOutside } from '../../lib/hooks/useOnClickOutside';
 import { useTheme } from '../../lib/hooks/useTheme';
@@ -52,32 +52,33 @@ const UserProfile = ({ mainNavbar = false }: { mainNavbar?: boolean }) => {
 					className={`z-50 min-w-48 absolute ${mainNavbar ? '-mx-36' : 'right-2'} top-14 text-base list-none bg-white/95 divide-y divide-gray-100 rounded-lg shadow-md border border-gray-200 dark:border-[#2d2d35] dark:divide-zinc-600 dark:bg-linear-to-t dark:from-zinc-800 dark:to-zinc-700`}
 				>
 					<div className='px-4 py-3' role='none'>
-						<p className='text-sm text-slate-600 dark:text-white' role='none'>
+						<Link
+							to={`/perfil/${auth.username}`}
+							className='w-full flex flex-row text-sm text-slate-600 dark:text-white hover:underline'
+						>
 							{name} {auth.profile?.last_name}
-						</p>
-						<p
-							className='text-xs font-normal text-slate-500 truncate dark:text-zinc-300'
-							role='none'
-						>
-							{auth.email}
-						</p>
+						</Link>
 					</div>
+
+					{auth.role.level === 1 && (
+						<div className='py-1'>
+							<button
+								className='w-full flex flex-row items-center gap-3 px-4 py-2 cursor-pointer text-sm text-slate-600 hover:text-white hover:bg-linear-to-r hover:from-sky-500 hover:to-fuchsia-500 dark:text-zinc-400 dark:hover:text-zinc-200 dark:hover:bg-linear-to-r dark:hover:from-sky-700 dark:hover:to-fuchsia-900'
+								onClick={() => handleClick('/admin/dashboard')}
+							>
+								<LayoutDashboard size={16} />
+								Dashboard
+							</button>
+						</div>
+					)}
+
 					<div className='py-1'>
-						<button
-							className='w-full flex flex-row items-center gap-3 px-4 py-2 cursor-pointer text-sm text-slate-600 hover:text-white hover:bg-linear-to-r hover:from-sky-500 hover:to-fuchsia-500 dark:text-zinc-400 dark:hover:text-zinc-200 dark:hover:bg-linear-to-r dark:hover:from-sky-700 dark:hover:to-fuchsia-900'
-							onClick={() => handleClick('/admin/dashboard')}
-						>
-							<LayoutDashboard size={16} />
-							Dashboard
-						</button>
 						<button
 							className='w-full flex flex-row items-center gap-3 px-4 py-2 cursor-pointer text-sm text-slate-600 hover:text-white hover:bg-linear-to-r hover:from-sky-500 hover:to-fuchsia-500 dark:text-zinc-400 dark:hover:text-zinc-200 dark:hover:bg-linear-to-r dark:hover:from-sky-700 dark:hover:to-fuchsia-900'
 							onClick={toggleTheme}
 						>
 							<ThemeToggleButton checked={theme === 'dark'} />
 						</button>
-					</div>
-					<div className='py-1'>
 						<button
 							className='w-full flex flex-row items-center gap-3 px-4 py-2 cursor-pointer text-sm text-slate-600 hover:text-white hover:bg-linear-to-r hover:from-sky-500 hover:to-fuchsia-500 dark:text-zinc-400 dark:hover:text-zinc-200 dark:hover:bg-linear-to-r dark:hover:from-sky-700 dark:hover:to-fuchsia-900'
 							onClick={() => handleLogout()}

@@ -1,10 +1,7 @@
 import {
-	CalendarCheck,
-	CircleUser,
 	CreditCard,
-	GalleryVerticalEnd,
 	LayoutDashboard,
-	MessagesSquare,
+	Users,
 	type LucideIcon
 } from 'lucide-react';
 
@@ -26,34 +23,13 @@ export const SIDE_ADMIN_ROUTES: SideAdminRoutesType[] = [
 	},
 	{
 		id: '02',
-		label: 'Perfil',
-		state: 'profile',
-		icon: CircleUser,
-		path: '/admin/perfil'
+		label: 'Usuarios',
+		state: 'usuarios',
+		icon: Users,
+		path: '/admin/users'
 	},
 	{
 		id: '03',
-		label: 'Blog Posts',
-		state: 'blog-posts',
-		icon: GalleryVerticalEnd,
-		path: '/admin/posts'
-	},
-	{
-		id: '04',
-		label: 'Eventos',
-		state: 'events',
-		icon: CalendarCheck,
-		path: '/admin/events'
-	},
-	{
-		id: '05',
-		label: 'Commentarios',
-		state: 'comments',
-		icon: MessagesSquare,
-		path: '/admin/comments'
-	},
-	{
-		id: '06',
 		label: 'Pagos',
 		state: 'payments',
 		icon: CreditCard,

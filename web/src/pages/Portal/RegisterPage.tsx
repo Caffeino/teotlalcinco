@@ -31,7 +31,7 @@ const RegisterPage = () => {
 		<Navigate to='/' replace />
 	) : (
 		<MainLayout>
-			<div className='h-[calc(80vh-7px)] py-1 sm:m-auto max-w-screen-md'>
+			<div className='h-[calc(80vh-27px)] py-1 sm:m-auto max-w-screen-md'>
 				<div className='p-10 rounded-lg'>
 					<div className='grid grid-cols-1 gap-4 mb-4'>
 						<div className='flex items-center justify-center rounded-sm w-full'>
